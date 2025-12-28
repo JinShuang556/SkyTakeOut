@@ -28,7 +28,11 @@ public class EmployeeController {
     private final EmployeeService employeeService;
     private final JwtProperties jwtProperties;
 
-
+    /**
+     * 员工登录
+     * @param employeeLoginDto
+     * @return
+     */
     @PostMapping("/login")
     public Result<EmployeeLoginVO> Login(@RequestBody EmployeeLoginDto employeeLoginDto){
         log.info("员工登录:{}", employeeLoginDto);
@@ -61,12 +65,22 @@ public class EmployeeController {
         return Result.success(employeeLoginVO);
     }
 
+
+    /**
+     * 员工登出
+     * @return
+     */
     @PostMapping("/logout")
     public Result logout(){
         log.info("员工登出");
         return Result.success();
     }
 
+    /**
+     *
+     * @param employeeEditPasswordDto
+     * @return
+     */
     @PutMapping("/editPassword")
     public Result editPassword(@RequestBody EmployeeEditPasswordDto employeeEditPasswordDto){
         log.info("修改密码");
@@ -74,6 +88,11 @@ public class EmployeeController {
         return null;
     }
 
+    /**
+     * 新增员工
+     * @param employeeDto
+     * @return
+     */
     @PostMapping
     public Result save(@RequestBody EmployeeDto employeeDto){
         log.info("新增员工");
@@ -81,6 +100,11 @@ public class EmployeeController {
         return Result.success();
     }
 
+    /**
+     * 分页查询员工
+     * @param pageDto
+     * @return
+     */
     @GetMapping("/page")
     public Result page(PageDto pageDto){
         log.info("分页查询员工：{}",pageDto);
@@ -88,4 +112,16 @@ public class EmployeeController {
         return Result.success(pageVO);
     }
 
+    /**
+     * 修改员工状态
+     * @param status
+     * @param id
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    public Result StartORStop(@PathVariable Integer status ,Long id) {
+        log.info("修改员工状态：{}，{}",status,id);
+        employeeService.StartORStop(status,id);
+        return Result.success();
+    }
 }

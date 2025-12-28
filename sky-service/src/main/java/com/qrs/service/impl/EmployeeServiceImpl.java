@@ -141,6 +141,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         return pageVO;
     }
 
+    @Override
+    public void StartORStop(Integer status, Long id) {
+        Employee employee = new Employee();
+        employee.setId(id);
+        employee.setStatus(status);
+
+        employeeMapper.updateById(employee);
+    }
+
     /**
      * 验证密码强度
      */
