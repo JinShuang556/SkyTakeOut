@@ -1,20 +1,21 @@
 package com.qrs.service;
 
-import com.qrs.dto.EmployeeDto;
-import com.qrs.dto.EmployeeLoginDto;
-import com.qrs.dto.EmployeeEditPasswordDto;
-import com.qrs.dto.PageDto;
+import com.qrs.dto.*;
 import com.qrs.entity.Employee;
 import com.qrs.vo.PageVO;
 
 public interface EmployeeService {
-    Employee login(EmployeeLoginDto employeeLoginDto);
+    Employee login(EmployeeLoginDTO employeeLoginDto);
 
-    void editPassword(EmployeeEditPasswordDto employeeEditPasswordDto);
+    Integer editPassword(EmployeeEditPasswordDTO employeeEditPasswordDto);
 
-    void save(EmployeeDto employeeDto);
+    void save(EmployeeDTO employeeDto);
 
-    PageVO page(PageDto pageDto);
+    PageVO page(PageDTO pageDto);
 
     void StartORStop(Integer status, Long id);
+
+    void updateEmployee(EmployeeUpdateDTO employeeUpdateDto);
+
+    Employee selectById(Long id);
 }

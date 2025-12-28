@@ -2,8 +2,13 @@ package com.qrs.dto;
 
 import lombok.Data;
 
+/**
+ * 新增员工信息
+ *
+ */
+
 @Data
-public class EmployeeDto {
+public class EmployeeDTO {
     private String IdNumber; //身份证
     private String name; //姓名
     private String phone; //电话

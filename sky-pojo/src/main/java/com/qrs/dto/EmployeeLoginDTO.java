@@ -3,7 +3,7 @@ package com.qrs.dto;
 import lombok.Data;
 
 @Data
-public class EmployeeLoginDto {
+public class EmployeeLoginDTO {
     private String username;
     private String password;
 }

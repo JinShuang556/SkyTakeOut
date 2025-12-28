@@ -5,10 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.qrs.constant.PasswordConstant;
 import com.qrs.constant.StatusConstant;
 import com.qrs.context.BaseContext;
-import com.qrs.dto.EmployeeDto;
-import com.qrs.dto.EmployeeLoginDto;
-import com.qrs.dto.EmployeeEditPasswordDto;
-import com.qrs.dto.PageDto;
+import com.qrs.dto.*;
 import com.qrs.entity.Employee;
 import com.qrs.exception.BusinessException;
 import com.qrs.mapper.EmployeeMapper;
@@ -30,7 +27,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeMapper employeeMapper;
 
     @Override
-    public Employee login(EmployeeLoginDto employeeLoginDto) {
+    public Employee login(EmployeeLoginDTO employeeLoginDto) {
         // 参数校验
         if (employeeLoginDto == null || StringUtils.isEmpty(employeeLoginDto.getUsername())
                 || StringUtils.isEmpty(employeeLoginDto.getPassword())) {
@@ -59,7 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void editPassword(EmployeeEditPasswordDto employeeEditPasswordDto) {
+    public Integer editPassword(EmployeeEditPasswordDTO employeeEditPasswordDto) {
 
         log.info("传入的参数：{}", employeeEditPasswordDto);
 
@@ -99,14 +96,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         // 更新密码
         employee.setPassword(newPassword);
         employee.setUpdateTime(LocalDateTime.now());
-        employeeMapper.updateById(employee);
+        Integer status = employeeMapper.updateById(employee);
 
         // 记录日志
         log.info("员工{}修改密码成功", empId);
+
+        return status;
     }
 
     @Override
-    public void save(EmployeeDto employeeDto) {
+    public void save(EmployeeDTO employeeDto) {
         Employee employee = new Employee();
         //属性拷贝
         BeanUtils.copyProperties(employeeDto, employee);
@@ -129,7 +128,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public PageVO page(PageDto pageDto) {
+    public PageVO page(PageDTO pageDto) {
         PageHelper.startPage(pageDto.getPage(),pageDto.getPageSize());
         // 查询所有员工
         Page<Employee> p =  employeeMapper.page(pageDto);
@@ -150,6 +149,29 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMapper.updateById(employee);
     }
 
+    @Override
+    public void updateEmployee(EmployeeUpdateDTO employeeUpdateDto) {
+//        Employee employee = Employee.builder()
+//                .id(employeeUpdateDto.getId())
+//                .username(employeeUpdateDto.getUsername())
+//                .name(employeeUpdateDto.getName())
+//                .phone(employeeUpdateDto.getPhone())
+//                .sex(employeeUpdateDto.getSex())
+//                .idNumber(employeeUpdateDto.getIdNumber())
+//                .updateTime(LocalDateTime.now())
+//                .updateUser(BaseContext.getCurrentId())
+//                .build();
+
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeUpdateDto, employee);
+        employeeMapper.updateById(employee);
+    }
+
+    @Override
+    public Employee selectById(Long id) {
+        return employeeMapper.selectById(id);
+    }
+
     /**
      * 验证密码强度
      */
@@ -158,5 +180,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         String pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,20}$";
         return password != null && password.matches(pattern);
     }
+
+
 
 }

@@ -1,10 +1,8 @@
 package com.qrs.controller.admin;
 
 import com.qrs.constant.JwtClaimsConstant;
-import com.qrs.dto.EmployeeDto;
-import com.qrs.dto.EmployeeLoginDto;
-import com.qrs.dto.EmployeeEditPasswordDto;
-import com.qrs.dto.PageDto;
+import com.qrs.constant.ResultConstant;
+import com.qrs.dto.*;
 import com.qrs.entity.Employee;
 import com.qrs.properties.JwtProperties;
 import com.qrs.result.Result;
@@ -30,11 +28,11 @@ public class EmployeeController {
 
     /**
      * 员工登录
-     * @param employeeLoginDto
-     * @return
+     * @param employeeLoginDto 用户信息
+     * @return 登录结果
      */
     @PostMapping("/login")
-    public Result<EmployeeLoginVO> Login(@RequestBody EmployeeLoginDto employeeLoginDto){
+    public Result<EmployeeLoginVO> Login(@RequestBody EmployeeLoginDTO employeeLoginDto){
         log.info("员工登录:{}", employeeLoginDto);
         Employee employee = employeeService.login(employeeLoginDto);
 
@@ -65,10 +63,9 @@ public class EmployeeController {
         return Result.success(employeeLoginVO);
     }
 
-
     /**
      * 员工登出
-     * @return
+     * @return 登出结果
      */
     @PostMapping("/logout")
     public Result logout(){
@@ -77,24 +74,28 @@ public class EmployeeController {
     }
 
     /**
-     *
-     * @param employeeEditPasswordDto
-     * @return
+     *  修改密码
+     * @param employeeEditPasswordDto 新旧密码和用户
+     * @return 修改结果
      */
     @PutMapping("/editPassword")
-    public Result editPassword(@RequestBody EmployeeEditPasswordDto employeeEditPasswordDto){
+    public Result editPassword(@RequestBody EmployeeEditPasswordDTO employeeEditPasswordDto){
         log.info("修改密码");
-        employeeService.editPassword(employeeEditPasswordDto);
-        return null;
+        Integer status =  employeeService.editPassword(employeeEditPasswordDto);
+        if(status>=ResultConstant.SUCCESS){
+            return Result.success();
+        }else{
+            return Result.error("修改失败");
+        }
     }
 
     /**
      * 新增员工
-     * @param employeeDto
-     * @return
+     * @param employeeDto 员工信息
+     * @return 新增结果
      */
     @PostMapping
-    public Result save(@RequestBody EmployeeDto employeeDto){
+    public Result save(@RequestBody EmployeeDTO employeeDto){
         log.info("新增员工");
         employeeService.save(employeeDto);
         return Result.success();
@@ -102,11 +103,11 @@ public class EmployeeController {
 
     /**
      * 分页查询员工
-     * @param pageDto
-     * @return
+     * @param pageDto 分页参数
+     * @return 分页结果
      */
     @GetMapping("/page")
-    public Result page(PageDto pageDto){
+    public Result page(PageDTO pageDto){
         log.info("分页查询员工：{}",pageDto);
         PageVO pageVO = employeeService.page(pageDto);
         return Result.success(pageVO);
@@ -114,9 +115,9 @@ public class EmployeeController {
 
     /**
      * 修改员工状态
-     * @param status
-     * @param id
-     * @return
+     * @param status 状态
+     * @param id 员工id
+     * @return 修改结果
      */
     @PostMapping("/status/{status}")
     public Result StartORStop(@PathVariable Integer status ,Long id) {
@@ -124,4 +125,30 @@ public class EmployeeController {
         employeeService.StartORStop(status,id);
         return Result.success();
     }
+
+    /**
+     * 修改员工信息
+     * @param employeeUpdateDto 员工信息
+     * @return 修改结果
+     */
+    @PutMapping()
+    public Result updateEmployee(@RequestBody EmployeeUpdateDTO employeeUpdateDto) {
+        log.info("修改员工：{}",employeeUpdateDto);
+        employeeService.updateEmployee(employeeUpdateDto);
+        return Result.success();
+    }
+
+    /**
+     * 根据id查询员工
+     * @param id 员工id
+     * @return 员工信息
+     */
+    @GetMapping("/{id}")
+    public Result<Employee> selectById(@PathVariable Long id) {
+        log.info("查询员工：{}",id);
+        Employee employee = employeeService.selectById(id);
+        employee.setPassword("******");
+        return Result.success(employee);
+    }
+
 }
