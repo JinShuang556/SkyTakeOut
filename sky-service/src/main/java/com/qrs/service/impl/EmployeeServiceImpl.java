@@ -1,23 +1,25 @@
 package com.qrs.service.impl;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.qrs.constant.PasswordConstant;
 import com.qrs.constant.StatusConstant;
 import com.qrs.context.BaseContext;
 import com.qrs.dto.EmployeeDto;
 import com.qrs.dto.EmployeeLoginDto;
 import com.qrs.dto.EmployeeEditPasswordDto;
+import com.qrs.dto.PageDto;
 import com.qrs.entity.Employee;
 import com.qrs.exception.BusinessException;
 import com.qrs.mapper.EmployeeMapper;
 import com.qrs.service.EmployeeService;
+import com.qrs.vo.PageVO;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Slf4j
@@ -124,6 +126,19 @@ public class EmployeeServiceImpl implements EmployeeService {
         //调用Mapper
         employeeMapper.insert(employee);
 
+    }
+
+    @Override
+    public PageVO page(PageDto pageDto) {
+        PageHelper.startPage(pageDto.getPage(),pageDto.getPageSize());
+        // 查询所有员工
+        Page<Employee> p =  employeeMapper.page(pageDto);
+        // 封装分页数据
+        PageVO pageVO = PageVO.builder()
+                .total(p.getTotal())
+                .records(p.getResult())
+                .build();
+        return pageVO;
     }
 
     /**

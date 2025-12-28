@@ -37,4 +37,14 @@
         WHERE id = #{id}
     </update>
 
+    <select id="page" resultType="com.qrs.entity.Employee">
+        SELECT * FROM employee
+        <where>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+
+
 </mapper>

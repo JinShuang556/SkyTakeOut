@@ -4,12 +4,14 @@ import com.qrs.constant.JwtClaimsConstant;
 import com.qrs.dto.EmployeeDto;
 import com.qrs.dto.EmployeeLoginDto;
 import com.qrs.dto.EmployeeEditPasswordDto;
+import com.qrs.dto.PageDto;
 import com.qrs.entity.Employee;
 import com.qrs.properties.JwtProperties;
 import com.qrs.result.Result;
 import com.qrs.service.EmployeeService;
 import com.qrs.utils.JwtUtil;
 import com.qrs.vo.EmployeeLoginVO;
+import com.qrs.vo.PageVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,8 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
     private final JwtProperties jwtProperties;
+
+
     @PostMapping("/login")
     public Result<EmployeeLoginVO> Login(@RequestBody EmployeeLoginDto employeeLoginDto){
         log.info("员工登录:{}", employeeLoginDto);
@@ -57,7 +61,6 @@ public class EmployeeController {
         return Result.success(employeeLoginVO);
     }
 
-
     @PostMapping("/logout")
     public Result logout(){
         log.info("员工登出");
@@ -78,5 +81,11 @@ public class EmployeeController {
         return Result.success();
     }
 
+    @GetMapping("/page")
+    public Result page(PageDto pageDto){
+        log.info("分页查询员工：{}",pageDto);
+        PageVO pageVO = employeeService.page(pageDto);
+        return Result.success(pageVO);
+    }
 
 }
