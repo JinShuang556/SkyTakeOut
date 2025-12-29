@@ -44,6 +44,11 @@ public class CategoryController {
         return Result.success();
     }
 
+    /**
+     * 删除分类
+     * @param id 分类id
+     * @return 删除结果
+     */
     @DeleteMapping
     public Result deleteCategory(Long id){
         log.info("删除分类:{}",id);
@@ -51,6 +56,12 @@ public class CategoryController {
         return Result.success();
     }
 
+    /**
+     * 修改分类状态
+     * @param status 分类状态
+     * @param id 分类id
+     * @return 修改结果
+     */
     @PostMapping("status/{status}")
     public Result StartORStop(@PathVariable Integer status, Long id) {
         log.info("修改分类状态:{},id:{}",status,id);
