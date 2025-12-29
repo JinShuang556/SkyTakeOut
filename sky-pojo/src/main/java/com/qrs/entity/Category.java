@@ -20,6 +20,6 @@ public class Category {
     private LocalDateTime createTime;  // 创建时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateTime;  // 更新时间
-    private Integer createUser;    // 创建人ID
-    private Integer updateUser;    // 更新人ID
+    private Long createUser;    // 创建人ID
+    private Long updateUser;    // 更新人ID
 }
