@@ -1,7 +1,10 @@
 package com.qrs.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +13,9 @@ import java.time.LocalDateTime;
  * 用于存储分类相关的信息
  */
 @Data  // 使用Lombok的@Data注解，自动生成getter、setter、toString等方法
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Category {
     private Long id;        // 分类ID
     private Integer type;      // 分类类型 1 菜品分类；2 套餐分类
