@@ -7,6 +7,7 @@ import com.qrs.service.CategoryService;
 import com.qrs.vo.PageVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,11 +37,24 @@ public class CategoryController {
      * @param categoryDTO 分类信息
      * @return 新增结果
      */
-    @PostMapping()
+    @PostMapping
     public Result addCategory(@RequestBody CategoryDTO categoryDTO){
         log.info("添加分类:{}",categoryDTO);
         categoryService.addCategory(categoryDTO);
         return Result.success();
     }
 
+    @DeleteMapping
+    public Result deleteCategory(Long id){
+        log.info("删除分类:{}",id);
+        categoryService.deleteCategory(id);
+        return Result.success();
+    }
+
+    @PostMapping("status/{status}")
+    public Result StartORStop(@PathVariable Integer status, Long id) {
+        log.info("修改分类状态:{},id:{}",status,id);
+        categoryService.updateStatus(status,id);
+        return Result.success();
+    }
 }

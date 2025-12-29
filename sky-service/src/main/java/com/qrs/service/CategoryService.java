@@ -8,4 +8,8 @@ public interface CategoryService {
     PageVO page(CategoryPageDTO categoryPageDTO);
 
     void addCategory(CategoryDTO categoryDTO);
+
+    void deleteCategory(Long id);
+
+    void updateStatus(Integer status, Long id);
 }
