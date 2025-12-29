@@ -128,10 +128,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public PageVO page(PageDTO pageDto) {
-        PageHelper.startPage(pageDto.getPage(),pageDto.getPageSize());
+    public PageVO page(EmployeePageDTO employeePageDto) {
+        log.info("开始分页查询");
+        PageHelper.startPage(employeePageDto.getPage(), employeePageDto.getPageSize());
         // 查询所有员工
-        Page<Employee> p =  employeeMapper.page(pageDto);
+        Page<Employee> p =  employeeMapper.page(employeePageDto);
         // 封装分页数据
         PageVO pageVO = PageVO.builder()
                 .total(p.getTotal())

@@ -1,0 +1,8 @@
+package com.qrs.service;
+
+import com.qrs.dto.CategoryPageDTO;
+import com.qrs.vo.PageVO;
+
+public interface CategoryService {
+    PageVO page(CategoryPageDTO categoryPageDTO);
+}

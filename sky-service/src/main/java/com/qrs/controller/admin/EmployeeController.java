@@ -103,13 +103,13 @@ public class EmployeeController {
 
     /**
      * 分页查询员工
-     * @param pageDto 分页参数
+     * @param employeePageDto 分页参数
      * @return 分页结果
      */
     @GetMapping("/page")
-    public Result page(PageDTO pageDto){
-        log.info("分页查询员工：{}",pageDto);
-        PageVO pageVO = employeeService.page(pageDto);
+    public Result page(EmployeePageDTO employeePageDto){
+        log.info("分页查询员工：{}", employeePageDto);
+        PageVO pageVO = employeeService.page(employeePageDto);
         return Result.success(pageVO);
     }
 

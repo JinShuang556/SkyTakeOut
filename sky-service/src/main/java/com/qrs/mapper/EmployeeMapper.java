@@ -1,7 +1,7 @@
 package com.qrs.mapper;
 
 import com.github.pagehelper.Page;
-import com.qrs.dto.PageDTO;
+import com.qrs.dto.EmployeePageDTO;
 import com.qrs.entity.Employee;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -36,5 +36,5 @@ public interface EmployeeMapper {
             "value (#{idNumber}, #{name}, #{phone}, #{sex}, #{username}, #{password}, #{status}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})")
     void insert(Employee employee);
 
-    Page<Employee> page(PageDTO pageDto);
+    Page<Employee> page(EmployeePageDTO employeePageDto);
 }

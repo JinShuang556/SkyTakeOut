@@ -11,7 +11,7 @@ public interface EmployeeService {
 
     void save(EmployeeDTO employeeDto);
 
-    PageVO page(PageDTO pageDto);
+    PageVO page(EmployeePageDTO employeePageDto);
 
     void StartORStop(Integer status, Long id);
 

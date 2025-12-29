@@ -3,7 +3,7 @@ package com.qrs.dto;
 import lombok.Data;
 
 @Data
-public class PageDTO {
+public class EmployeePageDTO {
     //员工姓名
     private String name;
     //页码
