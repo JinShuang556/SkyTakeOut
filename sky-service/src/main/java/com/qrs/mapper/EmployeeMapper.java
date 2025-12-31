@@ -1,8 +1,10 @@
 package com.qrs.mapper;
 
 import com.github.pagehelper.Page;
+import com.qrs.annotation.AutoFill;
 import com.qrs.dto.EmployeePageDTO;
 import com.qrs.entity.Employee;
+import com.qrs.enumeration.OperationType;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -30,6 +32,7 @@ public interface EmployeeMapper {
      * @param employee 员工信息
      * @return 更新结果
      */
+    @AutoFill(OperationType.UPDATE)
     Integer updateById(Employee employee);
 
 
@@ -37,6 +40,7 @@ public interface EmployeeMapper {
      * 插入员工信息
      * @param employee 员工信息
      */
+    @AutoFill(OperationType.INSERT)
     @Insert("insert into employee (id_number, name, phone, sex, username, password, status, create_time, update_time, create_user,update_user) " +
             "value (#{idNumber}, #{name}, #{phone}, #{sex}, #{username}, #{password}, #{status}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})")
     void insert(Employee employee);

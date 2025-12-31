@@ -59,14 +59,14 @@ public class CategoryController {
 
     /**
      * 修改分类状态
+     * @param id     分类id
      * @param status 分类状态
-     * @param id 分类id
      * @return 修改结果
      */
     @PostMapping("status/{status}")
-    public Result StartORStop(@PathVariable Integer status, Long id) {
+    public Result StartORStop(Long id,@PathVariable Integer status) {
         log.info("修改分类状态:{},id:{}",status,id);
-        categoryService.updateStatus(status,id);
+        categoryService.updateCategoryStatus(id, status);
         return Result.success();
     }
 
@@ -78,7 +78,7 @@ public class CategoryController {
     @PutMapping
     public Result updateCategory(@RequestBody CategoryDTO categoryDTO){
         log.info("修改分类:{}",categoryDTO);
-        categoryService.updateCategory(categoryDTO);
+        categoryService.updateCategoryInfo(categoryDTO);
         return Result.success();
     }
 

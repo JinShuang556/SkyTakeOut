@@ -3,7 +3,6 @@ package com.qrs.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.qrs.constant.StatusConstant;
-import com.qrs.context.BaseContext;
 import com.qrs.dto.CategoryDTO;
 import com.qrs.dto.CategoryPageDTO;
 import com.qrs.entity.Category;
@@ -15,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -40,10 +38,6 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = new Category();
         BeanUtils.copyProperties(categoryDTO,category);
         category.setStatus(StatusConstant.ENABLED);
-        category.setCreateTime(LocalDateTime.now());
-        category.setUpdateTime(LocalDateTime.now());
-        category.setCreateUser(BaseContext.getCurrentId());
-        category.setUpdateUser(BaseContext.getCurrentId());
         categoryMapper.insert(category);
     }
 
@@ -53,22 +47,18 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void updateStatus(Integer status, Long id) {
+    public void updateCategoryStatus(Long id, Integer status) {
         Category category = Category.builder()
                 .id(id)
                 .status(status)
-                .updateTime(LocalDateTime.now())
-                .updateUser(BaseContext.getCurrentId())
                 .build();
         categoryMapper.updateById(category);
     }
 
     @Override
-    public void updateCategory(CategoryDTO categoryDTO) {
+    public void updateCategoryInfo(CategoryDTO categoryDTO) {
         Category category = new Category();
         BeanUtils.copyProperties(categoryDTO,category);
-        category.setUpdateTime(LocalDateTime.now());
-        category.setUpdateUser(BaseContext.getCurrentId());
         categoryMapper.updateById(category);
     }
 

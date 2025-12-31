@@ -29,16 +29,16 @@ public interface CategoryService {
 
     /**
      * 修改分类状态
+     * @param id     分类id
      * @param status 分类状态
-     * @param id 分类id
      */
-    void updateStatus(Integer status, Long id);
+    void updateCategoryStatus(Long id, Integer status);
 
     /**
      * 修改分类
      * @param categoryDTO 分类参数
      */
-    void updateCategory(CategoryDTO categoryDTO);
+    void updateCategoryInfo(CategoryDTO categoryDTO);
 
     /**
      * 根据类型查询分类

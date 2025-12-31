@@ -92,15 +92,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 //            throw new BusinessException("新密码不符合要求");
 //        }
 
-
         // 更新密码
         employee.setPassword(newPassword);
-        employee.setUpdateTime(LocalDateTime.now());
+        // 调用Mapper
         Integer status = employeeMapper.updateById(employee);
-
         // 记录日志
         log.info("员工{}修改密码成功", empId);
-
         return status;
     }
 
@@ -109,22 +106,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
         //属性拷贝
         BeanUtils.copyProperties(employeeDto, employee);
-
         //设置账号状态
         employee.setStatus(StatusConstant.ENABLED);
-
         // 设置默认密码
         employee.setPassword(PasswordConstant.DEFAULT_PASSWORD);
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
-
-        //设置创建人id
-        employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
-
         //调用Mapper
         employeeMapper.insert(employee);
-
     }
 
     @Override
@@ -146,7 +133,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
         employee.setId(id);
         employee.setStatus(status);
-
         employeeMapper.updateById(employee);
     }
 
