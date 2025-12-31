@@ -9,7 +9,7 @@ import lombok.Data;
 @Data  // 使用Lombok注解，自动生成getter、setter等方法
 public class AddressBook {
     private Long id;          // 地址簿ID，主键
-    private Integer userId;       // 用户ID，关联用户表
+    private Long userId;       // 用户ID，关联用户表
     private String consignee;     // 收货人姓名
     private String sex;          // 收货人性别
     private String phone;        // 收货人联系电话
