@@ -2,14 +2,15 @@ package com.qrs.controller.admin;
 
 import com.qrs.dto.CategoryDTO;
 import com.qrs.dto.CategoryPageDTO;
+import com.qrs.entity.Category;
 import com.qrs.result.Result;
 import com.qrs.service.CategoryService;
 import com.qrs.vo.PageVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Delete;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -68,4 +69,30 @@ public class CategoryController {
         categoryService.updateStatus(status,id);
         return Result.success();
     }
+
+    /**
+     * 修改分类
+     * @param categoryDTO 分类信息
+     * @return 修改结果
+     */
+    @PutMapping
+    public Result updateCategory(@RequestBody CategoryDTO categoryDTO){
+        log.info("修改分类:{}",categoryDTO);
+        categoryService.updateCategory(categoryDTO);
+        return Result.success();
+    }
+
+    /**
+     * 根据类型查询分类
+     * @param type 分类类型
+     * @return 分类列表
+     */
+    @GetMapping("/list")
+    public Result<List<Category>> list(Integer type){
+        log.info("根据类型查询分类:{}",type);
+        List<Category> list = categoryService.selectByType(type);
+        return Result.success(list);
+    }
+
+
 }

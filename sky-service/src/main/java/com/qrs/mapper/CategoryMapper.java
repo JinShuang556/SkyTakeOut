@@ -6,17 +6,40 @@ import com.qrs.entity.Category;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface CategoryMapper {
+    /**
+     * 分类管理分页查询
+     * @param categoryPageDTO 分页查询条件
+     * @return 分类分页结果
+     */
     Page<Category> page(CategoryPageDTO categoryPageDTO);
 
+    /**
+     * 新增分类
+     * @param category 分类信息
+     */
     @Insert("insert into category(type, name, sort, status, create_time, update_time, create_user, update_user) " +
             "VALUE (#{type}, #{name}, #{sort}, #{status}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser})")
     void insert(Category category);
 
+    /**
+     * 根据ID删除分类
+     * @param id 分类ID
+     */
     @Delete("delete from category where id = #{id}")
     void deleteById(Long id);
 
+    /**
+     * 根据ID更新分类
+     * @param category 分类信息
+     */
     void updateById(Category category);
+
+    @Select("select * from category where type = #{type}")
+    List<Category> selectByType(Integer type);
 }
