@@ -1,15 +1,13 @@
 package com.qrs.controller.admin;
 
+import com.qrs.dto.DishDTO;
 import com.qrs.dto.DishPageDTO;
-import com.qrs.entity.Dish;
 import com.qrs.result.Result;
 import com.qrs.service.DishService;
 import com.qrs.vo.PageVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -24,5 +22,11 @@ public class DishController {
         log.info("菜品分页查询：{}",dishPageDTO);
         PageVO pageVO = dishService.page(dishPageDTO);
         return Result.success(pageVO);
+    }
+
+    @PostMapping
+    public Result addDish(@RequestBody DishDTO dishDTO){
+        dishService.saveWithFlavor(dishDTO);
+        return Result.success();
     }
 }

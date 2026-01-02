@@ -9,19 +9,19 @@ import com.qrs.enumeration.OperationType;
 import com.qrs.vo.DishVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
-public interface DishMapper {
+public interface DishFlavorMapper {
     /**
-     * 分页查询菜品
-     * @param dishPageDTO 分页参数
-     * @return 分页结果
+     * 添加菜品口味
+     * @param flavor 口味
      */
-    Page<DishVO> page(DishPageDTO dishPageDTO);
+    void addDishFlavor(DishFlavor flavor);
 
     /**
-     * 添加菜品
-     * @param dish 菜品
+     * 批量添加菜品口味
+     * @param flavors 口味
      */
-    @AutoFill(OperationType.INSERT)
-    void addDish(Dish dish);
+    void insertBatch(List<DishFlavor> flavors);
 }

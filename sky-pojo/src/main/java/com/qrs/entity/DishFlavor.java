@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class DishFlavor {
     private Long id; // 菜品口味ID，唯一标识一个菜品口味
-    private Integer dishId; // 关联的菜品ID，用于标识该口味属于哪个菜品
+    private Long dishId; // 关联的菜品ID，用于标识该口味属于哪个菜品
     private String name; // 口味名称，如"辣度"、"甜度"等
-    private List value; // 口味的具体值，如"微辣"、"不辣"等
+    private String value; // 口味的具体值，如"微辣"、"不辣"等
 }

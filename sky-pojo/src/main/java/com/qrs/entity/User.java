@@ -3,6 +3,7 @@ package com.qrs.entity;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * User类，用于存储用户信息
@@ -17,5 +18,5 @@ public class User {
     private String sex; // 用户性别
     private String idNumber; // 用户身份证号码
     private String avatar; // 用户头像URL
-    private LocalDate createTime; // 用户创建时间
+    private LocalDateTime createTime; // 用户创建时间
 }
