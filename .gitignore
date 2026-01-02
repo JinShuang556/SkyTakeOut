@@ -24,6 +24,7 @@ target/
 ### 环境配置 ###
 
 sky-service/src/main/resources/application-dev.yml
+.env
 
 ### NetBeans ###
 /nbproject/private/
