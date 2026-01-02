@@ -20,7 +20,10 @@ target/
 *.ipr
 *.class
 *Test.java
-*.yml
+
+### 环境配置 ###
+
+sky-service/src/main/resources/application-dev.yml
 
 ### NetBeans ###
 /nbproject/private/
