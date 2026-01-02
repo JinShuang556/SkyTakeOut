@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/admin/dish")
@@ -27,6 +29,13 @@ public class DishController {
     @PostMapping
     public Result addDish(@RequestBody DishDTO dishDTO){
         dishService.saveWithFlavor(dishDTO);
+        return Result.success();
+    }
+
+    @DeleteMapping
+    public Result deleteDishes(List<Long> ids){
+        log.info("(批量)删除菜品：{}",ids);
+        dishService.removeWithFlavor(ids);
         return Result.success();
     }
 }

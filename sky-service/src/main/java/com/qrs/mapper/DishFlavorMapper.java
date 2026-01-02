@@ -7,6 +7,7 @@ import com.qrs.entity.Dish;
 import com.qrs.entity.DishFlavor;
 import com.qrs.enumeration.OperationType;
 import com.qrs.vo.DishVO;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -24,4 +25,10 @@ public interface DishFlavorMapper {
      * @param flavors 口味
      */
     void insertBatch(List<DishFlavor> flavors);
+
+    /**
+     * 根据菜品ID删除菜品口味
+     * @param ids 菜品ID
+     */
+    void deleteDishFlavorByDishIds(List<Long> ids);
 }

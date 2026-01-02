@@ -15,4 +15,16 @@
             (#{dishFlavor.dishId}, #{dishFlavor.name}, #{dishFlavor.value})
         </foreach>
     </insert>
+
+    <!--根据菜品ID删除菜品口味-->
+    <delete id="deleteDishFlavorByDishIds">
+        DELETE FROM dish_flavor
+        WHERE dish_id IN
+        <foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        <if test="ids == null or ids.size()==0">
+            AND 1=0
+        </if>
+    </delete>
 </mapper>

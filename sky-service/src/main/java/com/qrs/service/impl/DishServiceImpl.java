@@ -8,6 +8,7 @@ import com.qrs.entity.Dish;
 import com.qrs.entity.DishFlavor;
 import com.qrs.mapper.DishFlavorMapper;
 import com.qrs.mapper.DishMapper;
+import com.qrs.mapper.SetMealDishMapper;
 import com.qrs.service.DishService;
 import com.qrs.vo.DishVO;
 import com.qrs.vo.PageVO;
@@ -26,7 +27,7 @@ public class DishServiceImpl implements DishService {
 
     private final DishMapper dishMapper;
     private final DishFlavorMapper dishFlavorMapper;
-
+    private final SetMealDishMapper setMealDishMapper;
 
     @Override
     public PageVO page(DishPageDTO dishPageDTO) {
@@ -58,5 +59,29 @@ public class DishServiceImpl implements DishService {
             //批量插入：
             dishFlavorMapper.insertBatch(flavors);
         }
+    }
+
+    @Transactional
+    @Override
+    public void removeWithFlavor(List<Long> ids) {
+        //1.判断菜品是否被套餐关联
+        log.info("检查菜品是否关联套餐...");
+        Integer count = setMealDishMapper.checkDishIdsInSetmealDish(ids);
+        if(count >0){
+            throw new RuntimeException("有" + count + "个菜品已被套餐关联，无法删除");
+        }
+        //2.检查菜品是否起售
+        log.info("检查菜品是否起售...");
+        List<Dish> dishes = dishMapper.selectDishByIds(ids);
+        for (Dish dish : dishes) {
+            if(dish.getStatus()==1)
+                throw new RuntimeException(dish.getName() + "已起售，无法删除");
+        }
+        //3.删除菜品
+        log.info("删除菜品...");
+        dishMapper.deleteDishByIds(ids);
+        //4.删除菜品口味
+        log.info("删除菜品口味...");
+        dishFlavorMapper.deleteDishFlavorByDishIds(ids);
     }
 }
