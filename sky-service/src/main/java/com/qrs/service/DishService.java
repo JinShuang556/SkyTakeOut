@@ -2,6 +2,7 @@ package com.qrs.service;
 
 import com.qrs.dto.DishDTO;
 import com.qrs.dto.DishPageDTO;
+import com.qrs.dto.DishUpdateDTO;
 import com.qrs.entity.Dish;
 import com.qrs.vo.DishWithFlavorVO;
 import com.qrs.vo.PageVO;
@@ -42,4 +43,6 @@ public interface DishService {
      * @return 菜品信息
      */
     DishWithFlavorVO selectDishWithFlavorById(Long id);
+
+    void updateDishWithFlavor(DishUpdateDTO dishUpdateDTO);
 }

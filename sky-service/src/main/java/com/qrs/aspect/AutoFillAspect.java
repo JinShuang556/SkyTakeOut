@@ -31,7 +31,7 @@ public class AutoFillAspect {
      */
     @Before("autoFillPointCut()")
     public void autoFill(JoinPoint joinPoint){
-        log.info("公共字段自动填充");
+        log.info("公共字段自动填充...");
         //获取方法签名对象：
         MethodSignature signature = (MethodSignature)joinPoint.getSignature();
         //获取方法
@@ -70,11 +70,8 @@ public class AutoFillAspect {
 
         } else if (operationType == OperationType.UPDATE) {
             try {
-                log.info("修改");
                 Method setUpdateTime = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME, LocalDateTime.class);
                 Method setUpdateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER, Long.class);
-                log.info("获取的方法：{}",setUpdateTime);
-                log.info("获取的方法：{}",setUpdateUser);
                 //2.再通过反射调用获取的方法
                 setUpdateTime.invoke(entity,now);
                 setUpdateUser.invoke(entity,empId);

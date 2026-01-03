@@ -2,6 +2,7 @@ package com.qrs.controller.admin;
 
 import com.qrs.dto.DishDTO;
 import com.qrs.dto.DishPageDTO;
+import com.qrs.dto.DishUpdateDTO;
 import com.qrs.entity.Dish;
 import com.qrs.result.Result;
 import com.qrs.service.DishService;
@@ -78,6 +79,13 @@ public class DishController {
         log.info("根据id查询菜品、菜品口味和套餐名称：{}",id);
         DishWithFlavorVO dishWithFlavorVO = dishService.selectDishWithFlavorById(id);
         return Result.success(dishWithFlavorVO);
+    }
+
+    @PutMapping
+    public Result updateDishWithFlavor(@RequestBody DishUpdateDTO dishUpdateDTO){
+        log.info("修改菜品和菜品口味：{}",dishUpdateDTO);
+        dishService.updateDishWithFlavor(dishUpdateDTO);
+        return Result.success();
     }
 
 

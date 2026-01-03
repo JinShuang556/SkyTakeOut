@@ -3,6 +3,7 @@ package com.qrs.mapper;
 import com.github.pagehelper.Page;
 import com.qrs.annotation.AutoFill;
 import com.qrs.dto.DishPageDTO;
+import com.qrs.dto.DishUpdateDTO;
 import com.qrs.entity.Dish;
 import com.qrs.enumeration.OperationType;
 import com.qrs.vo.DishPageVO;
@@ -53,4 +54,11 @@ public interface DishMapper {
      * 根据id查询菜品和菜品口味
      */
     DishWithFlavorVO selectDishWithFlavorById(Long id);
+
+    /**
+     * 更新菜品
+     * @param dish 菜品更新参数
+     */
+    @AutoFill(OperationType.UPDATE)
+    void updateDish(Dish dish);
 }

@@ -89,4 +89,18 @@
         LEFT JOIN sky_take_out.dish_flavor df on d.id = df.dish_id
         WHERE d.id = #{id}
     </select>
+
+    <!--修改菜品和菜品口味-->
+    <insert id="updateDish">
+        UPDATE dish
+        SET name=#{name},
+            price=#{price},
+            description=#{description},
+            image=#{image},
+            status=#{status},
+            category_id=#{categoryId},
+            update_time=#{updateTime},
+            update_user=#{updateUser}
+        WHERE id=#{id}
+    </insert>
 </mapper>

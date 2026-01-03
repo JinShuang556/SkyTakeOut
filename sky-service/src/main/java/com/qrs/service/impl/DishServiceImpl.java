@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.qrs.dto.DishDTO;
 import com.qrs.dto.DishPageDTO;
+import com.qrs.dto.DishUpdateDTO;
 import com.qrs.entity.Dish;
 import com.qrs.entity.DishFlavor;
 import com.qrs.mapper.DishFlavorMapper;
@@ -19,6 +20,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -96,5 +99,35 @@ public class DishServiceImpl implements DishService {
     @Override
     public DishWithFlavorVO selectDishWithFlavorById(Long id) {
         return dishMapper.selectDishWithFlavorById(id);
+    }
+
+    @Transactional
+    @Override
+    public void updateDishWithFlavor(DishUpdateDTO dishUpdateDTO) {
+        Dish dish = new Dish();
+        BeanUtils.copyProperties(dishUpdateDTO,dish);
+        log.info("正在修改菜品...");
+        dishMapper.updateDish(dish);
+        log.info("正在修改菜品口味...");
+        // 先删除，再插入
+        log.info("正在查询菜品是否有口味...");
+        Integer i = dishFlavorMapper.selectDishIdInDishFlavor(dish.getId());
+        if(i>0){
+            log.info("该菜品有{}个口味，正在删除...", i);
+            dishFlavorMapper.deleteDishFlavorByDishId(dish.getId());
+        }else {
+            log.info("菜品口味为空，无需删除");
+        }
+        log.info("正在插入新的口味...");
+        List<DishFlavor> flavors = dishUpdateDTO.getFlavors();
+        if(flavors == null || flavors.isEmpty()){
+            log.info("修改的菜品口味为空，无需插入");
+            return ;
+        }
+        flavors.forEach(flavor -> {
+            flavor.setDishId(dish.getId());
+        });
+        dishFlavorMapper.insertBatch(flavors);
+        log.info("修改成功");
     }
 }
