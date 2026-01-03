@@ -3,7 +3,6 @@ package com.qrs.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
  * 用于存储菜品相关的信息，包括菜品的基本信息、价格、状态等
  */
 @Data  // 使用Lombok的@Data注解，自动生成getter、setter、equals、hashCode和toString方法
-public class DishVO {
+public class DishPageVO {
     private Long id; // 菜品ID，唯一标识一道菜品
     private String name; // 菜品名称
     private Integer categoryId; // 菜品所属分类ID

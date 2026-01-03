@@ -3,6 +3,7 @@ package com.qrs.service;
 import com.qrs.dto.DishDTO;
 import com.qrs.dto.DishPageDTO;
 import com.qrs.entity.Dish;
+import com.qrs.vo.DishWithFlavorVO;
 import com.qrs.vo.PageVO;
 
 import java.util.List;
@@ -28,5 +29,17 @@ public interface DishService {
      */
     void removeWithFlavor(List<Long> ids);
 
+    /**
+     * 根据分类ID查询菜品
+     * @param categoryId 分类ID
+     * @return 菜品列表
+     */
     List<Dish> selectDishByCategoryId(Long categoryId);
+
+    /**
+     * 根据菜品ID查询菜品和菜品口味
+     * @param id 菜品ID
+     * @return 菜品信息
+     */
+    DishWithFlavorVO selectDishWithFlavorById(Long id);
 }

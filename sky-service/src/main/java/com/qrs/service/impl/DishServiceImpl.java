@@ -10,7 +10,8 @@ import com.qrs.mapper.DishFlavorMapper;
 import com.qrs.mapper.DishMapper;
 import com.qrs.mapper.SetMealDishMapper;
 import com.qrs.service.DishService;
-import com.qrs.vo.DishVO;
+import com.qrs.vo.DishPageVO;
+import com.qrs.vo.DishWithFlavorVO;
 import com.qrs.vo.PageVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ public class DishServiceImpl implements DishService {
     @Override
     public PageVO page(DishPageDTO dishPageDTO) {
         PageHelper.startPage(dishPageDTO.getPage(),dishPageDTO.getPageSize());
-        Page<DishVO> p = dishMapper.page(dishPageDTO);
+        Page<DishPageVO> p = dishMapper.page(dishPageDTO);
         return PageVO.builder()
                 .total(p.getTotal())
                 .records(p.getResult())
@@ -90,5 +91,10 @@ public class DishServiceImpl implements DishService {
 
         List<Dish> dishes = dishMapper.selectDishByCategoryId(categoryId);
         return dishes;
+    }
+
+    @Override
+    public DishWithFlavorVO selectDishWithFlavorById(Long id) {
+        return dishMapper.selectDishWithFlavorById(id);
     }
 }

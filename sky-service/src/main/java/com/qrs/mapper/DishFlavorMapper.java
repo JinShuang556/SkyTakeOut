@@ -1,13 +1,6 @@
 package com.qrs.mapper;
 
-import com.github.pagehelper.Page;
-import com.qrs.annotation.AutoFill;
-import com.qrs.dto.DishPageDTO;
-import com.qrs.entity.Dish;
 import com.qrs.entity.DishFlavor;
-import com.qrs.enumeration.OperationType;
-import com.qrs.vo.DishVO;
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -31,4 +24,11 @@ public interface DishFlavorMapper {
      * @param ids 菜品ID
      */
     void deleteDishFlavorByDishIds(List<Long> ids);
+
+    /**
+     * 根据菜品ID查询菜品口味
+     * @param dishId 菜品ID
+     * @return 菜品口味列表
+     */
+    List<DishFlavor> selectDishFlavorByDishId(Long dishId);
 }

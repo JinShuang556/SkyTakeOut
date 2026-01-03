@@ -27,4 +27,9 @@
             AND 1=0
         </if>
     </delete>
+
+    <!--根据菜品ID查询菜品口味-->
+    <select id="selectDishFlavorByDishId" resultType="com.qrs.entity.DishFlavor">
+        SELECT * FROM dish_flavor WHERE dish_id = #{dishId}
+    </select>
 </mapper>

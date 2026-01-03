@@ -5,8 +5,8 @@ import com.qrs.annotation.AutoFill;
 import com.qrs.dto.DishPageDTO;
 import com.qrs.entity.Dish;
 import com.qrs.enumeration.OperationType;
-import com.qrs.vo.DishVO;
-import org.apache.ibatis.annotations.Delete;
+import com.qrs.vo.DishPageVO;
+import com.qrs.vo.DishWithFlavorVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -19,7 +19,7 @@ public interface DishMapper {
      * @param dishPageDTO 分页参数
      * @return 分页结果
      */
-    Page<DishVO> page(DishPageDTO dishPageDTO);
+    Page<DishPageVO> page(DishPageDTO dishPageDTO);
 
     /**
      * 添加菜品
@@ -42,11 +42,15 @@ public interface DishMapper {
     List<Dish> selectDishByIds(List<Long> ids);
 
     /**
-     * 根据id查询菜品
+     * 分类id查询菜品
+     * @param categoryId 分类id
+     * @return 菜品列表
      */
-    @Select("select * from dish where id = #{id}")
-    Dish selectDishById(Long id);
-
     @Select("select * from dish where category_id = #{categoryId}")
     List<Dish> selectDishByCategoryId(Long categoryId);
+
+    /**
+     * 根据id查询菜品和菜品口味
+     */
+    DishWithFlavorVO selectDishWithFlavorById(Long id);
 }
