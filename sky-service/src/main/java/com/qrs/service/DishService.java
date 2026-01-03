@@ -44,5 +44,17 @@ public interface DishService {
      */
     DishWithFlavorVO selectDishWithFlavorById(Long id);
 
+    /**
+     * 修改菜品和菜品口味
+     * @param dishUpdateDTO 菜品信息
+     */
     void updateDishWithFlavor(DishUpdateDTO dishUpdateDTO);
+
+    /**
+     * 菜品起售、停售
+     * @param id 菜品id
+     * @param status 菜品状态
+     */
+
+    void DishStatusChange(Long id, Integer status);
 }

@@ -40,7 +40,7 @@ public interface DishFlavorMapper {
      * @return 是否有口味
      */
     @Select("SELECT COUNT(*) FROM dish_flavor WHERE dish_id = #{id}")
-    Integer selectDishIdInDishFlavor(Long id);
+    Integer checkDishIdInDishFlavor(Long id);
 
     /**
      * 根据菜品ID删除菜品口味

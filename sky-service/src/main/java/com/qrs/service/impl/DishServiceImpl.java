@@ -20,8 +20,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -92,8 +90,7 @@ public class DishServiceImpl implements DishService {
     @Override
     public List<Dish> selectDishByCategoryId(Long categoryId) {
 
-        List<Dish> dishes = dishMapper.selectDishByCategoryId(categoryId);
-        return dishes;
+        return dishMapper.selectDishByCategoryId(categoryId);
     }
 
     @Override
@@ -111,7 +108,7 @@ public class DishServiceImpl implements DishService {
         log.info("正在修改菜品口味...");
         // 先删除，再插入
         log.info("正在查询菜品是否有口味...");
-        Integer i = dishFlavorMapper.selectDishIdInDishFlavor(dish.getId());
+        Integer i = dishFlavorMapper.checkDishIdInDishFlavor(dish.getId());
         if(i>0){
             log.info("该菜品有{}个口味，正在删除...", i);
             dishFlavorMapper.deleteDishFlavorByDishId(dish.getId());
@@ -130,4 +127,13 @@ public class DishServiceImpl implements DishService {
         dishFlavorMapper.insertBatch(flavors);
         log.info("修改成功");
     }
+
+    @Override
+    public void DishStatusChange(Long id, Integer status) {
+        Dish dish = new Dish();
+        dish.setId(id);
+        dish.setStatus(status);
+        dishMapper.updateDish(dish);
+    }
+
 }

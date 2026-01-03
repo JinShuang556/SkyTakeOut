@@ -93,14 +93,16 @@
     <!--修改菜品和菜品口味-->
     <insert id="updateDish">
         UPDATE dish
-        SET name=#{name},
-            price=#{price},
-            description=#{description},
-            image=#{image},
-            status=#{status},
-            category_id=#{categoryId},
-            update_time=#{updateTime},
-            update_user=#{updateUser}
+        <set>
+            <if test="name != null and name != ''"> name = #{name},</if>
+            <if test="price != null"> price = #{price},</if>
+            <if test="description != null and description != ''"> description = #{description},</if>
+            <if test="image != null and image != ''"> image = #{image},</if>
+            <if test="status != null"> status = #{status},</if>
+            <if test="categoryId != null"> category_id = #{categoryId},</if>
+            <if test="updateTime != null"> update_time = #{updateTime},</if>
+            <if test="updateUser != null"> update_user = #{updateUser},</if>
+        </set>
         WHERE id=#{id}
     </insert>
 </mapper>
