@@ -50,7 +50,7 @@ public class DishController {
      * @return 成功或失败
      */
     @DeleteMapping
-    public Result deleteDishes(List<Long> ids){
+    public Result deleteDishes(@RequestParam List<Long> ids){
         log.info("(批量)删除菜品：{}",ids);
         dishService.removeWithFlavor(ids);
         return Result.success();
@@ -79,4 +79,6 @@ public class DishController {
         DishWithFlavorVO dishWithFlavorVO = dishService.selectDishWithFlavorById(id);
         return Result.success(dishWithFlavorVO);
     }
+
+
 }
