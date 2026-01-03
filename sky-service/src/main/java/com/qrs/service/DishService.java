@@ -2,6 +2,7 @@ package com.qrs.service;
 
 import com.qrs.dto.DishDTO;
 import com.qrs.dto.DishPageDTO;
+import com.qrs.entity.Dish;
 import com.qrs.vo.PageVO;
 
 import java.util.List;
@@ -26,4 +27,6 @@ public interface DishService {
      * @param ids 菜品ID列表
      */
     void removeWithFlavor(List<Long> ids);
+
+    List<Dish> selectDishByCategoryId(Long categoryId);
 }

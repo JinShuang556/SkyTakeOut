@@ -84,4 +84,11 @@ public class DishServiceImpl implements DishService {
         log.info("删除菜品口味...");
         dishFlavorMapper.deleteDishFlavorByDishIds(ids);
     }
+
+    @Override
+    public List<Dish> selectDishByCategoryId(Long categoryId) {
+
+        List<Dish> dishes = dishMapper.selectDishByCategoryId(categoryId);
+        return dishes;
+    }
 }

@@ -2,6 +2,7 @@ package com.qrs.controller.admin;
 
 import com.qrs.dto.DishDTO;
 import com.qrs.dto.DishPageDTO;
+import com.qrs.entity.Dish;
 import com.qrs.result.Result;
 import com.qrs.service.DishService;
 import com.qrs.vo.PageVO;
@@ -37,5 +38,12 @@ public class DishController {
         log.info("(批量)删除菜品：{}",ids);
         dishService.removeWithFlavor(ids);
         return Result.success();
+    }
+
+    @GetMapping("/list")
+    public Result selectDishByCategoryId(Long categoryId){
+        log.info("根据分类id查询菜品：{}",categoryId);
+        List<Dish> dishes = dishService.selectDishByCategoryId(categoryId);
+        return Result.success(dishes);
     }
 }
