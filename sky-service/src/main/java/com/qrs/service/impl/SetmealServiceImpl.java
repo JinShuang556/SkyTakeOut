@@ -100,4 +100,15 @@ public class SetmealServiceImpl implements SetmealService {
         }
         log.info("更新套餐成功");
     }
+
+    @Override
+    public void updateStatus(Long id, Integer status) {
+        Setmeal setmeal = new Setmeal();
+        setmeal.setId(id);
+        setmeal.setStatus(status);
+        setmealMapper.updateSetmealById(setmeal);
+        log.info("套餐状态修改成功，当前状态：{}", status);
+    }
+
+
 }

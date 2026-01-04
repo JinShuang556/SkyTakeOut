@@ -79,4 +79,15 @@ public class SetmealController {
         return Result.success();
     }
 
+    /**
+     * 修改套餐状态
+     * @return 修改结果
+     */
+    @PostMapping("/status/{status}")
+    public Result updateStatus(Long id, @PathVariable Integer status){
+        log.info("修改套餐状态：{},{}",id,status);
+        setmealService.updateStatus(id, status);
+        return Result.success();
+    }
+
 }
