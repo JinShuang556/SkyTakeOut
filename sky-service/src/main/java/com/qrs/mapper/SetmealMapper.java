@@ -6,6 +6,7 @@ import com.qrs.dto.SetmealPageDTO;
 import com.qrs.entity.Setmeal;
 import com.qrs.enumeration.OperationType;
 import com.qrs.vo.SetmealPageVO;
+import com.qrs.vo.SetmealWithSetmealDishVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -31,4 +32,11 @@ public interface SetmealMapper {
      * @param ids 套餐id
      */
     void deleteBatch(List<Long> ids);
+
+    /**
+     * 根据id查询套餐和套餐菜品信息
+     * @param id 套餐id
+     * @return
+     */
+    SetmealWithSetmealDishVO selectSetmealWithSetmealDishById(Long id);
 }

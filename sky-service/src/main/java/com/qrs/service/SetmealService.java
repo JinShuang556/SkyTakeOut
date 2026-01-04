@@ -3,6 +3,7 @@ package com.qrs.service;
 import com.qrs.dto.SetmealPageDTO;
 import com.qrs.dto.SetmealWithSetmealDishDTO;
 import com.qrs.vo.PageVO;
+import com.qrs.vo.SetmealWithSetmealDishVO;
 
 import java.util.List;
 
@@ -25,4 +26,11 @@ public interface SetmealService {
      * @param ids 套餐id集合
      */
     void deleteSetmealWithSetmealDish(List<Long> ids);
+
+    /**
+     * 根据套餐id查询套餐和套餐关联菜品
+     * @param id 套餐id
+     * @return 套餐和套餐关联菜品
+     */
+    SetmealWithSetmealDishVO selectSetmealWithSetmealDishById(Long id);
 }

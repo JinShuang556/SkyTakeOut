@@ -11,6 +11,7 @@ import com.qrs.mapper.SetmealMapper;
 import com.qrs.service.SetmealService;
 import com.qrs.vo.PageVO;
 import com.qrs.vo.SetmealPageVO;
+import com.qrs.vo.SetmealWithSetmealDishVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -58,5 +59,10 @@ public class SetmealServiceImpl implements SetmealService {
     public void deleteSetmealWithSetmealDish(List<Long> ids) {
         setmealMapper.deleteBatch(ids);
         setmealDishMapper.deleteSetmealDishBySetmealIds(ids);
+    }
+
+    @Override
+    public SetmealWithSetmealDishVO selectSetmealWithSetmealDishById(Long id) {
+        return setmealMapper.selectSetmealWithSetmealDishById(id);
     }
 }

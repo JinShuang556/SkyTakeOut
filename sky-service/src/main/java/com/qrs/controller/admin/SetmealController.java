@@ -5,6 +5,7 @@ import com.qrs.dto.SetmealPageDTO;
 import com.qrs.result.Result;
 import com.qrs.service.SetmealService;
 import com.qrs.vo.PageVO;
+import com.qrs.vo.SetmealWithSetmealDishVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class SetmealController {
      */
     @GetMapping("/page")
     public Result<PageVO> page(SetmealPageDTO setmealPageDTO){
-        log.info("套餐分页查询{}",setmealPageDTO);
+        log.info("套餐分页查询：{}",setmealPageDTO);
         PageVO pageVO = setmealService.page(setmealPageDTO);
         return Result.success(pageVO);
     }
@@ -37,7 +38,7 @@ public class SetmealController {
      */
     @PostMapping
     public Result addSetmealWithSetmealDish(@RequestBody SetmealWithSetmealDishDTO setmealWithSetmealDishDTO){
-        log.info("新增套餐{}", setmealWithSetmealDishDTO);
+        log.info("新增套餐：{}", setmealWithSetmealDishDTO);
         setmealService.addSetmealWithSetmealDish(setmealWithSetmealDishDTO);
         return Result.success();
     }
@@ -49,9 +50,21 @@ public class SetmealController {
      */
     @DeleteMapping
     public Result deleteSetmealWithSetmealDish(@RequestParam List<Long> ids){
-        log.info("批量删除套餐{}", ids);
+        log.info("批量删除套餐：{}", ids);
         setmealService.deleteSetmealWithSetmealDish(ids);
         return Result.success();
+    }
+
+    /**
+     * 根据id查询套餐和关联的菜品
+     * @param id 套餐id
+     * @return 套餐和关联的菜品
+     */
+    @GetMapping("/{id}")
+    public Result<SetmealWithSetmealDishVO> selectSetmealWithSetmealDishById(@PathVariable Long id){
+        log.info("根据id查询套餐：{}", id);
+        SetmealWithSetmealDishVO setmealWithSetmealDishVO = setmealService.selectSetmealWithSetmealDishById(id);
+        return Result.success(setmealWithSetmealDishVO);
     }
 
 }

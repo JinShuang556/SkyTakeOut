@@ -37,4 +37,49 @@
         </foreach>
         <if test="ids == null"> AND 1 = 0</if>
     </delete>
+
+    <!--定义结果集-->
+    <resultMap id="setmealWithSetmealDishMap" type="com.qrs.vo.SetmealWithSetmealDishVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="price" property="price"/>
+        <result column="status" property="status"/>
+        <result column="description" property="description"/>
+        <result column="image" property="image"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="category_name" property="categoryName"/>
+        <collection property="setmealDishes" ofType="com.qrs.entity.SetmealDish">
+            <id column="sd_id" property="id"/>
+            <result column="sd_setmeal_id" property="setmealId"/>
+            <result column="sd_dish_id" property="dishId"/>
+            <result column="sd_name" property="name"/>
+            <result column="sd_price" property="price"/>
+            <result column="sd_copies" property="copies"/>
+        </collection>
+    </resultMap>
+
+    <!--根据套餐id查询套餐和套餐关联菜品-->
+    <select id="selectSetmealWithSetmealDishById" resultMap="setmealWithSetmealDishMap">
+        SELECT
+            s.id,
+            s.name,
+            s.category_id,
+            s.price,
+            s.status,
+            s.description,
+            s.image,
+            s.update_time,
+            c.name as category_name,
+            sd.id as sd_id,
+            sd.setmeal_id as sd_setmeal_id,
+            sd.dish_id as sd_dish_id,
+            sd.name as sd_name,
+            sd.price as sd_price,
+            sd.copies as sd_copies
+        FROM setmeal as s
+        LEFT JOIN category as c ON s.category_id = c.id
+        LEFT JOIN setmeal_dish as sd ON s.id = sd.setmeal_id
+        WHERE s.id = #{id}
+    </select>
 </mapper>
