@@ -28,4 +28,13 @@
         INSERT INTO setmeal(name,category_id,price,status,description,image,create_time,update_time,create_user,update_user)
         VALUE (#{name},#{categoryId},#{price},#{status},#{description},#{image},#{createTime},#{updateTime},#{createUser},#{updateUser})
     </insert>
+
+    <!--批量删除套餐-->
+    <delete id="deleteBatch">
+        DELETE FROM setmeal WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        <if test="ids == null"> AND 1 = 0</if>
+    </delete>
 </mapper>

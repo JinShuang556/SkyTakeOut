@@ -42,11 +42,21 @@ public class SetmealServiceImpl implements SetmealService {
         log.info("新增套餐：{}", setmeal);
         setmealMapper.insert(setmeal);
         List<SetmealDish> setmealDishes = setmealWithSetmealDishDTO.getSetmealDishes();
+        if(setmealDishes==null||setmealDishes.isEmpty()){
+            throw new RuntimeException("套餐菜品不能为空");
+        }
         for (SetmealDish setmealDish : setmealDishes) {
             setmealDish.setSetmealId(setmeal.getId());
         }
         log.info("新增套餐菜品：{}", setmealDishes);
         setmealDishMapper.insertBatch(setmealDishes);
         log.info("新增套餐成功");
+    }
+
+    @Transactional
+    @Override
+    public void deleteSetmealWithSetmealDish(List<Long> ids) {
+        setmealMapper.deleteBatch(ids);
+        setmealDishMapper.deleteSetmealDishBySetmealIds(ids);
     }
 }
