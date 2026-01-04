@@ -9,7 +9,7 @@ import com.qrs.entity.Dish;
 import com.qrs.entity.DishFlavor;
 import com.qrs.mapper.DishFlavorMapper;
 import com.qrs.mapper.DishMapper;
-import com.qrs.mapper.SetMealDishMapper;
+import com.qrs.mapper.SetmealDishMapper;
 import com.qrs.service.DishService;
 import com.qrs.vo.DishPageVO;
 import com.qrs.vo.DishWithFlavorVO;
@@ -29,7 +29,7 @@ public class DishServiceImpl implements DishService {
 
     private final DishMapper dishMapper;
     private final DishFlavorMapper dishFlavorMapper;
-    private final SetMealDishMapper setMealDishMapper;
+    private final SetmealDishMapper setMealDishMapper;
 
     @Override
     public PageVO page(DishPageDTO dishPageDTO) {

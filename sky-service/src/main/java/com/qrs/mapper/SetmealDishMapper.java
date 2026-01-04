@@ -1,16 +1,21 @@
 package com.qrs.mapper;
 
+import com.qrs.entity.SetmealDish;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
-public interface SetMealDishMapper {
+public interface SetmealDishMapper {
     /**
      * 查询菜品是否关联了套餐
      * @param ids 菜品id
      */
     Integer checkDishIdsInSetmealDish(List<Long> ids);
 
-
+    /**
+     * 批量插入套餐菜品
+     * @param setmealDishes 套餐菜品
+     */
+    void insertBatch(List<SetmealDish> setmealDishes);
 }

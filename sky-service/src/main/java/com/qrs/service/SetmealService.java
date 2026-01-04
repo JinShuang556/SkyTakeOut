@@ -1,6 +1,7 @@
 package com.qrs.service;
 
 import com.qrs.dto.SetmealPageDTO;
+import com.qrs.dto.SetmealWithSetmealDishDTO;
 import com.qrs.vo.PageVO;
 
 public interface SetmealService {
@@ -10,4 +11,6 @@ public interface SetmealService {
      * @return 分页结果
      */
     PageVO page(SetmealPageDTO setmealPageDTO);
+
+    void addSetmealWithSetmealDish(SetmealWithSetmealDishDTO setmealWithSetmealDishDTO);
 }

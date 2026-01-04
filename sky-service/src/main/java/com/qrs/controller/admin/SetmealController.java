@@ -1,14 +1,13 @@
 package com.qrs.controller.admin;
 
+import com.qrs.dto.SetmealWithSetmealDishDTO;
 import com.qrs.dto.SetmealPageDTO;
 import com.qrs.result.Result;
 import com.qrs.service.SetmealService;
 import com.qrs.vo.PageVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -27,6 +26,18 @@ public class SetmealController {
         log.info("套餐分页查询{}",setmealPageDTO);
         PageVO pageVO = setmealService.page(setmealPageDTO);
         return Result.success(pageVO);
+    }
+
+    /**
+     * 新增套餐
+     * @param setmealWithSetmealDishDTO 套餐和菜品
+     * @return 成功
+     */
+    @PostMapping
+    public Result addSetmealWithSetmealDish(@RequestBody SetmealWithSetmealDishDTO setmealWithSetmealDishDTO){
+        log.info("新增套餐{}", setmealWithSetmealDishDTO);
+        setmealService.addSetmealWithSetmealDish(setmealWithSetmealDishDTO);
+        return Result.success();
     }
 
 }
