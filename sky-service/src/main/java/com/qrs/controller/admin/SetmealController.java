@@ -67,4 +67,16 @@ public class SetmealController {
         return Result.success(setmealWithSetmealDishVO);
     }
 
+    /**
+     * 修改套餐
+     * @param setmealWithSetmealDishDTO 套餐和菜品
+     * @return 修改结果
+     */
+    @PutMapping
+    public Result updateSetmealWithSetmealDish(@RequestBody SetmealWithSetmealDishDTO setmealWithSetmealDishDTO){
+        log.info("修改套餐：{}", setmealWithSetmealDishDTO);
+        setmealService.updateSetmealWithSetmealDish(setmealWithSetmealDishDTO);
+        return Result.success();
+    }
+
 }

@@ -8,6 +8,7 @@ import com.qrs.enumeration.OperationType;
 import com.qrs.vo.SetmealPageVO;
 import com.qrs.vo.SetmealWithSetmealDishVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -39,4 +40,19 @@ public interface SetmealMapper {
      * @return
      */
     SetmealWithSetmealDishVO selectSetmealWithSetmealDishById(Long id);
+
+    /**
+     * 根据id更新套餐信息
+     * @param setmeal 套餐信息
+     */
+    @AutoFill(OperationType.UPDATE)
+    void updateSetmealById(Setmeal setmeal);
+
+    /**
+     * 检查套餐名是否存在
+     * @param newName 新套餐名
+     * @return 1 存在 0 不存在
+     */
+    @Select("select count(*) from setmeal where name = #{newName}")
+    Integer checkNameInSetmeal(String newName);
 }

@@ -2,6 +2,7 @@ package com.qrs.mapper;
 
 import com.qrs.entity.SetmealDish;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -24,4 +25,12 @@ public interface SetmealDishMapper {
      * @param ids 套餐id
      */
     void deleteSetmealDishBySetmealIds(List<Long> ids);
+
+    /**
+     * 根据套餐id查询套餐菜品
+     * @param id 套餐id
+     * @return 套餐菜品列表
+     */
+    @Select("SELECT * FROM setmeal_dish WHERE setmeal_id = #{id}")
+    List<SetmealDish> selectSetmealDishesBySetmealId(Long id);
 }

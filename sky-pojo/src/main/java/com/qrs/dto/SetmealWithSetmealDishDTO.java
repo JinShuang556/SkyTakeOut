@@ -15,6 +15,7 @@ public class SetmealWithSetmealDishDTO {
     private Long id; // 套餐id，唯一标识套餐
     private String name; // 套餐名称，用于展示给用户
     private Long categoryId; // 分类id
+    private String categoryName; // 分类名称
     private Long idType;// 套餐id
     private String code;// 套餐编码
     private String description; // 套餐描述
