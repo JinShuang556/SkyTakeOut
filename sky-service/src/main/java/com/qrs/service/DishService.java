@@ -55,6 +55,12 @@ public interface DishService {
      * @param id 菜品id
      * @param status 菜品状态
      */
-
     void DishStatusChange(Long id, Integer status);
+
+    /**
+     * 根据分类ID查询菜品和菜品口味
+     * @param categoryId 分类ID
+     * @return 菜品和菜品口味信息
+     */
+    List<DishWithFlavorVO> selectDishWithFlavorByCategoryId(Long categoryId);
 }

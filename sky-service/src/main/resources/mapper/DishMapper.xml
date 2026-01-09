@@ -47,7 +47,7 @@
 
     </delete>
 
-    <!--为selectDishWithFlavorById定义结果集-->
+    <!--定义结果集-->
     <resultMap id="DishWithFlavorVOMap" type="com.qrs.vo.DishWithFlavorVO">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
@@ -69,7 +69,7 @@
 
     </resultMap>
 
-    <!--根据id查询菜品-->
+    <!--根据菜品id查询菜品和菜品口味-->
     <select id="selectDishWithFlavorById" resultMap="DishWithFlavorVOMap">
         SELECT d.id,
                d.name,
@@ -105,4 +105,26 @@
         </set>
         WHERE id=#{id}
     </insert>
+
+    <!--根据分类id查询菜品和菜品口味-->
+    <select id="selectDishWithFlavorByCategoryId" resultMap="DishWithFlavorVOMap">
+        SELECT d.id,
+               d.name,
+               d.price,
+               d.category_id as categoryId,
+               d.description,
+               d.image,
+               d.status,
+               d.update_time as updateTime,
+               c.name as categoryName,
+               df.id as df_id,
+               df.name as df_name,
+               df.value as df_value,
+               df.dish_id as df_dishId
+        FROM dish d
+                 LEFT JOIN category c ON d.category_id = c.id
+                 LEFT JOIN sky_take_out.dish_flavor df on d.id = df.dish_id
+        WHERE d.category_id = #{categoryId}
+    </select>
+
 </mapper>

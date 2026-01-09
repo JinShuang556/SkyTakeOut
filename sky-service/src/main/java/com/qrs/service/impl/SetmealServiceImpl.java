@@ -9,6 +9,7 @@ import com.qrs.entity.SetmealDish;
 import com.qrs.mapper.SetmealDishMapper;
 import com.qrs.mapper.SetmealMapper;
 import com.qrs.service.SetmealService;
+import com.qrs.vo.DishItemVO;
 import com.qrs.vo.PageVO;
 import com.qrs.vo.SetmealPageVO;
 import com.qrs.vo.SetmealWithSetmealDishVO;
@@ -108,6 +109,16 @@ public class SetmealServiceImpl implements SetmealService {
         setmeal.setStatus(status);
         setmealMapper.updateSetmealById(setmeal);
         log.info("套餐状态修改成功，当前状态：{}", status);
+    }
+
+    @Override
+    public List<Setmeal> getSetmealsBycategoryId(Long categoryId) {
+        return setmealMapper.getSetmealsBycategoryId(categoryId);
+    }
+
+    @Override
+    public List<DishItemVO> selectDishesById(Long id) {
+        return setmealMapper.selectDishesById(id);
     }
 
 

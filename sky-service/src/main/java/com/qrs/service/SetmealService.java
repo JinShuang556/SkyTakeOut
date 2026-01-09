@@ -2,6 +2,8 @@ package com.qrs.service;
 
 import com.qrs.dto.SetmealPageDTO;
 import com.qrs.dto.SetmealWithSetmealDishDTO;
+import com.qrs.entity.Setmeal;
+import com.qrs.vo.DishItemVO;
 import com.qrs.vo.PageVO;
 import com.qrs.vo.SetmealWithSetmealDishVO;
 
@@ -46,4 +48,18 @@ public interface SetmealService {
      * @param status 状态
      */
     void updateStatus(Long id, Integer status);
+
+    /**
+     * 根据分类id查询套餐
+     * @param categoryId 分类id
+     * @return 套餐列表
+     */
+    List<Setmeal> getSetmealsBycategoryId(Long categoryId);
+
+    /**
+     * 根据套餐id查询包含的菜品
+     * @param id 套餐id
+     * @return 菜品列表
+     */
+    List<DishItemVO> selectDishesById(Long id);
 }

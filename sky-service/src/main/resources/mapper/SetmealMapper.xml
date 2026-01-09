@@ -98,4 +98,24 @@
         </set>
         Where id = #{id}
     </update>
+
+    <!--根据分类id查询套餐-->
+    <select id="getSetmealsBycategoryId" resultType="com.qrs.entity.Setmeal">
+        SELECT * FROM setmeal
+        <where>
+            <if test="categoryId != null">category_id = #{categoryId}</if>
+        </where>
+    </select>
+
+    <!--根据套餐id查询包含的菜品-->
+    <select id="selectDishesById" resultType="com.qrs.vo.DishItemVO">
+        SELECT
+            d.name,
+            d.image,
+            d.description,
+            sd.copies as copies
+        FROM dish AS d
+        LEFT JOIN setmeal_dish AS sd ON d.id = sd.dish_id
+        WHERE sd.setmeal_id = #{id}
+    </select>
 </mapper>

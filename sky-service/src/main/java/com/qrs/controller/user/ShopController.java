@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@RestController
+@RestController("userShopController")
 @RequestMapping("/user/shop")
 @RequiredArgsConstructor
 public class ShopController {

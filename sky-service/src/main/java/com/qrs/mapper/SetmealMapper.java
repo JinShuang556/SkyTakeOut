@@ -5,6 +5,7 @@ import com.qrs.annotation.AutoFill;
 import com.qrs.dto.SetmealPageDTO;
 import com.qrs.entity.Setmeal;
 import com.qrs.enumeration.OperationType;
+import com.qrs.vo.DishItemVO;
 import com.qrs.vo.SetmealPageVO;
 import com.qrs.vo.SetmealWithSetmealDishVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -55,4 +56,18 @@ public interface SetmealMapper {
      */
     @Select("select count(*) from setmeal where name = #{newName}")
     Integer checkNameInSetmeal(String newName);
+
+    /**
+     * 根据分类id查询套餐
+     * @param categoryId 分类id
+     * @return 套餐列表
+     */
+    List<Setmeal> getSetmealsBycategoryId(Long categoryId);
+
+    /**
+     * 根据套餐id查询菜品
+     * @param id 套餐id
+     * @return 菜品列表
+     */
+    List<DishItemVO> selectDishesById(Long id);
 }

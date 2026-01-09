@@ -44,6 +44,10 @@ public interface CategoryMapper {
     @AutoFill(OperationType.UPDATE)
     void updateById(Category category);
 
-    @Select("select * from category where type = #{type}")
+    /**
+     * 根据类型查询分类
+     * @param type 类型
+     * @return 分类列表
+     */
     List<Category> selectByType(Integer type);
 }
