@@ -1,6 +1,7 @@
 package com.qrs.config;
 
 import com.qrs.interceptor.JwtTokenAdminInterceptor;
+import com.qrs.interceptor.JwtTokenUserInterceptor;
 import com.qrs.json.JacksonObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,11 +28,17 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     private final JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
 
+    private final JwtTokenUserInterceptor jwtTokenUserInterceptor;
+
     protected void addInterceptors(InterceptorRegistry registry) {
         log.info("注册拦截器");
         registry.addInterceptor(jwtTokenAdminInterceptor)
                 .addPathPatterns("/admin/**")
                 .excludePathPatterns("/admin/employee/login");
+        registry.addInterceptor(jwtTokenUserInterceptor)
+                .addPathPatterns("/user/**")
+                .excludePathPatterns("/user/user/login")
+                .excludePathPatterns("/user/shop/status");
     }
 
     @Bean

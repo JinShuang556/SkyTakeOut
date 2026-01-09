@@ -1,6 +1,5 @@
 package com.qrs.controller.user;
 
-
 import com.qrs.constant.JwtClaimsConstant;
 import com.qrs.dto.UserLoginDTO;
 import com.qrs.entity.User;
@@ -18,7 +17,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/user")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -26,9 +25,9 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/user/login")
+    @PostMapping("/login")
     public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO) {
-        log.info("用户登录:{}",userLoginDTO.getCode());
+        log.info("用户登录code:{}",userLoginDTO.getCode());
 
         //检查用户是否正确
         User user = userService.wxLogin(userLoginDTO);
@@ -49,6 +48,12 @@ public class UserController {
 
         return Result.success(userLoginVO);
 
+    }
+
+    @PostMapping("/logout")
+    public Result logout(){
+        log.info("用户登出");
+        return Result.success();
     }
 
 }

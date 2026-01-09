@@ -24,6 +24,7 @@ import org.apache.http.util.EntityUtils;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.URI;
@@ -42,6 +43,7 @@ public class UserServiceImpl implements UserService {
     private final WeChatProperties weChatProperties;
     private final UserMapper userMapper;
 
+    @Transactional
     @Override
     public User wxLogin(UserLoginDTO userLoginDTO) {
         String code = userLoginDTO.getCode();
