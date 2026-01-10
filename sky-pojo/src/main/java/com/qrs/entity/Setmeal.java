@@ -2,6 +2,7 @@ package com.qrs.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
  * 用于存储套餐的基本信息，包括套餐ID、分类ID、名称、价格等
  */
 @Data
-public class Setmeal {
+public class Setmeal implements Serializable {
     private Long id; // 套餐ID，唯一标识一条套餐记录
     private Long categoryId; // 所属分类ID，用于标识套餐所属的分类
     private String name; // 套餐名称，用于展示给用户看的套餐名称
