@@ -124,7 +124,10 @@
         FROM dish d
                  LEFT JOIN category c ON d.category_id = c.id
                  LEFT JOIN sky_take_out.dish_flavor df on d.id = df.dish_id
-        WHERE d.category_id = #{categoryId}
+        <where>
+            <if test="categoryId != null">d.category_id = #{categoryId}</if>
+            <if test="status != null">AND d.status = 1</if>
+        </where>
     </select>
 
 </mapper>

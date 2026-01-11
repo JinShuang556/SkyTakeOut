@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.qrs.entity.DishFlavor;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * 用于存储菜品相关的信息，包括菜品的基本信息、价格、状态等
  */
 @Data  // 使用Lombok的@Data注解，自动生成getter、setter、equals、hashCode和toString方法
-public class DishWithFlavorVO {
+public class DishWithFlavorVO implements Serializable {
     private Long id; // 菜品ID，唯一标识一道菜品
     private String name; // 菜品名称
     private Integer categoryId; // 菜品所属分类ID

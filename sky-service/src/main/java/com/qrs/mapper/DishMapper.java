@@ -68,4 +68,12 @@ public interface DishMapper {
      * @return 菜品列表
      */
     List<DishWithFlavorVO> selectDishWithFlavorByCategoryId(Long categoryId);
+
+    /**
+     * 根据id查询菜品
+     * @param id 菜品id
+     * @return 菜品
+     */
+    @Select("select * from dish where id = #{id}")
+    Dish selectDishById(Long id);
 }

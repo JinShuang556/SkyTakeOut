@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class Dish {
     private Long id; // 菜品ID，唯一标识一道菜品
     private String name; // 菜品名称
-    private Integer categoryId; // 菜品所属分类ID
+    private Long categoryId; // 菜品所属分类ID
     private Double price; // 菜品价格
     private String image; // 菜品图片路径或URL
     private String description; // 菜品描述信息
