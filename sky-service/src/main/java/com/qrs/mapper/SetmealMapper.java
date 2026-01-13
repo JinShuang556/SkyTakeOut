@@ -40,7 +40,7 @@ public interface SetmealMapper {
      * @param id 套餐id
      * @return
      */
-    SetmealWithSetmealDishVO selectSetmealWithSetmealDishById(Long id);
+    SetmealWithSetmealDishVO getSetmealWithSetmealDishById(Long id);
 
     /**
      * 根据id更新套餐信息
@@ -69,14 +69,14 @@ public interface SetmealMapper {
      * @param id 套餐id
      * @return 菜品列表
      */
-    List<DishItemVO> selectDishesById(Long id);
+    List<DishItemVO> getDishItemsById(Long id);
 
     /**
      * 根据套餐id查询套餐
      * @param ids 套餐id
      * @return 套餐列表
      */
-    List<Setmeal> selectSetmealByIds(List<Long> ids);
+    List<Setmeal> getSetmealByIds(List<Long> ids);
 
     /**
      * 根据套餐id查询套餐
@@ -84,5 +84,5 @@ public interface SetmealMapper {
      * @return 套餐
      */
     @Select("select * from setmeal where id = #{id}")
-    Setmeal selectSetmealById(Long id);
+    Setmeal getSetmealById(Long id);
 }

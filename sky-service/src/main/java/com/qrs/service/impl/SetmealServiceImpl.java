@@ -66,7 +66,7 @@ public class SetmealServiceImpl implements SetmealService {
     public void deleteSetmealWithSetmealDish(List<Long> ids) {
         //1.判断套餐是否起售
         log.info("检查套餐是否起售...");
-        List<Setmeal> setmeals = setmealMapper.selectSetmealByIds(ids);
+        List<Setmeal> setmeals = setmealMapper.getSetmealByIds(ids);
         Set<Long> categoryIds = new HashSet<>();
         for (Setmeal setmeal : setmeals) {
             if(setmeal.getStatus() == 1){
@@ -97,7 +97,7 @@ public class SetmealServiceImpl implements SetmealService {
 
     @Override
     public SetmealWithSetmealDishVO selectSetmealWithSetmealDishById(Long id) {
-        return setmealMapper.selectSetmealWithSetmealDishById(id);
+        return setmealMapper.getSetmealWithSetmealDishById(id);
     }
 
     @Transactional
@@ -105,7 +105,7 @@ public class SetmealServiceImpl implements SetmealService {
     public void updateSetmealWithSetmealDish(SetmealWithSetmealDishDTO setmealWithSetmealDishDTO) {
         //先获得原来的套餐分类id,为后面的删除缓存做准备
         Set<Long> categoryIds = new HashSet<>();
-        Setmeal oldsetmeal = setmealMapper.selectSetmealById(setmealWithSetmealDishDTO.getId());
+        Setmeal oldsetmeal = setmealMapper.getSetmealById(setmealWithSetmealDishDTO.getId());
         categoryIds.add(oldsetmeal.getCategoryId());
         //更新套餐信息：
         Setmeal setmeal = new Setmeal();
@@ -152,7 +152,7 @@ public class SetmealServiceImpl implements SetmealService {
         setmealMapper.updateSetmealById(setmeal);
         log.info("套餐状态修改成功，当前状态：{}", status);
         //删除套餐分类缓存：
-        setmeal = setmealMapper.selectSetmealById(id);
+        setmeal = setmealMapper.getSetmealById(id);
         Set<Long> categoryIds = new HashSet<>();
         categoryIds.add(setmeal.getCategoryId());
         clearSetmealListCache(categoryIds);
@@ -167,7 +167,7 @@ public class SetmealServiceImpl implements SetmealService {
 //    @Cacheable(cacheNames = "UserSetmeal" , key = "'detail:'+#id")
     @Override
     public List<DishItemVO> selectDishesById(Long id) {
-        return setmealMapper.selectDishesById(id);
+        return setmealMapper.getDishItemsById(id);
     }
 
 

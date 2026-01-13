@@ -24,11 +24,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -85,7 +83,7 @@ public class DishServiceImpl implements DishService {
         }
         //2.检查菜品是否起售
         log.info("检查菜品是否起售...");
-        List<Dish> dishes = dishMapper.selectDishByIds(ids);
+        List<Dish> dishes = dishMapper.getDishesByIds(ids);
         Set<Long> categoryIds = new HashSet<>();
         for (Dish dish : dishes) {
             if(dish.getStatus()==1) {
@@ -108,19 +106,19 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public List<Dish> selectDishByCategoryId(Long categoryId) {
-        return dishMapper.selectDishByCategoryId(categoryId);
+        return dishMapper.getDishByCategoryId(categoryId);
     }
 
     @Override
     public DishWithFlavorVO selectDishWithFlavorById(Long id) {
-        return dishMapper.selectDishWithFlavorById(id);
+        return dishMapper.getDishWithFlavorById(id);
     }
 
     @Transactional
     @Override
     public void updateDishWithFlavor(DishUpdateDTO dishUpdateDTO) {
         //获得旧菜品，并记录旧菜品的分类id，用于删除缓存
-        Dish oldDish = dishMapper.selectDishById(dishUpdateDTO.getId());
+        Dish oldDish = dishMapper.getDishById(dishUpdateDTO.getId());
         Set<Long> categoryIds = new HashSet<>();
         categoryIds.add(oldDish.getCategoryId());
         //再记录新菜品的分类id
@@ -164,7 +162,7 @@ public class DishServiceImpl implements DishService {
         dish.setStatus(status);
         dishMapper.updateDish(dish);
         //删除缓存
-        dish = dishMapper.selectDishById(id);
+        dish = dishMapper.getDishById(id);
         Set<Long> categoryIds = new HashSet<>();
         categoryIds.add(dish.getCategoryId());
         clearCategoryCache(categoryIds);
@@ -173,7 +171,7 @@ public class DishServiceImpl implements DishService {
     @Cacheable(cacheNames = "UserDish" , key = "'list:category:'+#categoryId")
     @Override
     public List<DishWithFlavorVO> selectDishWithFlavorByCategoryId(Long categoryId) {
-        return dishMapper.selectDishWithFlavorByCategoryId(categoryId);
+        return dishMapper.getDishWithFlavorByCategoryId(categoryId);
     }
 
     /**

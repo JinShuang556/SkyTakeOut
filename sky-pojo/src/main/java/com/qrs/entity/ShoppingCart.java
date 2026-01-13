@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Data
 public class ShoppingCart {
     private Long id; // 主键ID，唯一标识一条购物车记录
-    private Integer name; // 商品名称，用于展示给用户看的商品名称
+    private String name; // 商品名称，用于展示给用户看的商品名称
     private String image; // 商品图片路径，用于展示商品图片
     private Long userId; // 用户ID，关联到具体用户
     private Long dishId; // 菜品ID，关联到具体菜品

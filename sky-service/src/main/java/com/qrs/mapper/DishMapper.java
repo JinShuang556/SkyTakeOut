@@ -3,7 +3,6 @@ package com.qrs.mapper;
 import com.github.pagehelper.Page;
 import com.qrs.annotation.AutoFill;
 import com.qrs.dto.DishPageDTO;
-import com.qrs.dto.DishUpdateDTO;
 import com.qrs.entity.Dish;
 import com.qrs.enumeration.OperationType;
 import com.qrs.vo.DishPageVO;
@@ -40,7 +39,7 @@ public interface DishMapper {
      * @param ids 菜品id
      * @return 菜品列表
      */
-    List<Dish> selectDishByIds(List<Long> ids);
+    List<Dish> getDishesByIds(List<Long> ids);
 
     /**
      * 分类id查询菜品
@@ -48,12 +47,12 @@ public interface DishMapper {
      * @return 菜品列表
      */
     @Select("select * from dish where category_id = #{categoryId}")
-    List<Dish> selectDishByCategoryId(Long categoryId);
+    List<Dish> getDishByCategoryId(Long categoryId);
 
     /**
      * 根据id查询菜品和菜品口味
      */
-    DishWithFlavorVO selectDishWithFlavorById(Long id);
+    DishWithFlavorVO getDishWithFlavorById(Long id);
 
     /**
      * 更新菜品
@@ -67,7 +66,7 @@ public interface DishMapper {
      * @param categoryId 分类id
      * @return 菜品列表
      */
-    List<DishWithFlavorVO> selectDishWithFlavorByCategoryId(Long categoryId);
+    List<DishWithFlavorVO> getDishWithFlavorByCategoryId(Long categoryId);
 
     /**
      * 根据id查询菜品
@@ -75,5 +74,5 @@ public interface DishMapper {
      * @return 菜品
      */
     @Select("select * from dish where id = #{id}")
-    Dish selectDishById(Long id);
+    Dish getDishById(Long id);
 }
