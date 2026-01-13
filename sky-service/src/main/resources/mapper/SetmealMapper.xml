@@ -38,6 +38,14 @@
         <if test="ids == null"> AND 1 = 0</if>
     </delete>
 
+    <!--批量查询套餐-->
+    <select id="selectSetmealByIds">
+        SELECT * FROM setmeal WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
     <!--定义结果集-->
     <resultMap id="setmealWithSetmealDishMap" type="com.qrs.vo.SetmealWithSetmealDishVO">
         <id column="id" property="id"/>
@@ -104,6 +112,7 @@
         SELECT * FROM setmeal
         <where>
             <if test="categoryId != null">category_id = #{categoryId}</if>
+            AND status = 1
         </where>
     </select>
 

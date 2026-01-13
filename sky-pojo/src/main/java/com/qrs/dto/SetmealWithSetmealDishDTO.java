@@ -25,6 +25,5 @@ public class SetmealWithSetmealDishDTO {
 
     private List<SetmealDish> setmealDishes; //套餐包含的菜品
 
-
     private List<Dish> dishList;// 菜品列表
 }

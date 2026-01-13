@@ -16,11 +16,14 @@ import com.qrs.vo.SetmealWithSetmealDishVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -29,6 +32,7 @@ public class SetmealServiceImpl implements SetmealService {
 
     private final SetmealMapper setmealMapper;
     private final SetmealDishMapper setmealDishMapper;
+    private final CacheManager cacheManager;
 
     @Override
     public PageVO page(SetmealPageDTO setmealPageDTO) {
@@ -37,6 +41,7 @@ public class SetmealServiceImpl implements SetmealService {
         return new PageVO(page.getTotal(), page.getResult());
     }
 
+    @CacheEvict(cacheNames = "UserSetmeal",key = "'list:'+#setmealWithSetmealDishDTO.categoryId")
     @Transactional
     @Override
     public void addSetmealWithSetmealDish(SetmealWithSetmealDishDTO setmealWithSetmealDishDTO) {
@@ -51,7 +56,7 @@ public class SetmealServiceImpl implements SetmealService {
         for (SetmealDish setmealDish : setmealDishes) {
             setmealDish.setSetmealId(setmeal.getId());
         }
-        log.info("新增套餐菜品：{}", setmealDishes);
+        log.info("套餐关联的菜品：{}", setmealDishes);
         setmealDishMapper.insertBatch(setmealDishes);
         log.info("新增套餐成功");
     }
@@ -59,8 +64,35 @@ public class SetmealServiceImpl implements SetmealService {
     @Transactional
     @Override
     public void deleteSetmealWithSetmealDish(List<Long> ids) {
+        //1.判断套餐是否起售
+        log.info("检查套餐是否起售...");
+        List<Setmeal> setmeals = setmealMapper.selectSetmealByIds(ids);
+        Set<Long> categoryIds = new HashSet<>();
+        for (Setmeal setmeal : setmeals) {
+            if(setmeal.getStatus() == 1){
+                throw new RuntimeException("套餐已起售，无法删除");
+            }
+            categoryIds.add(setmeal.getCategoryId());
+        }
+        //2.删除套餐关联的菜品
         setmealMapper.deleteBatch(ids);
+        log.info("正在删除套餐关联的菜品...");
+        //3.删除套餐
         setmealDishMapper.deleteSetmealDishBySetmealIds(ids);
+        log.info("删除套餐成功");
+        //4.删除套餐分类缓存：
+        clearSetmealListCache(categoryIds);
+    }
+
+    private void clearSetmealListCache(Set<Long> categoryIds) {
+        Cache cache = cacheManager.getCache("UserSetmeal");
+        if(cache == null){
+            log.info("UserSetmeal::list缓存不存在");
+            return;
+        }
+        for (Long categoryId : categoryIds) {
+            cache.evict("list:" + categoryId);
+        }
     }
 
     @Override
@@ -71,9 +103,13 @@ public class SetmealServiceImpl implements SetmealService {
     @Transactional
     @Override
     public void updateSetmealWithSetmealDish(SetmealWithSetmealDishDTO setmealWithSetmealDishDTO) {
+        //先获得原来的套餐分类id,为后面的删除缓存做准备
+        Set<Long> categoryIds = new HashSet<>();
+        Setmeal oldsetmeal = setmealMapper.selectSetmealById(setmealWithSetmealDishDTO.getId());
+        categoryIds.add(oldsetmeal.getCategoryId());
+        //更新套餐信息：
         Setmeal setmeal = new Setmeal();
         BeanUtils.copyProperties(setmealWithSetmealDishDTO, setmeal);
-        //更新套餐信息：
         setmealMapper.updateSetmealById(setmeal);
         log.info("正在删除原来套餐关联的菜品...");
         //根据套餐id获得原来的菜品：
@@ -100,6 +136,12 @@ public class SetmealServiceImpl implements SetmealService {
             setmealDishMapper.insertBatch(newSetmealDishes);
         }
         log.info("更新套餐成功");
+        //删除套餐分类缓存：
+        log.info("正在删除套餐分类缓存：UserSetmeal::list:{}", setmeal.getCategoryId());
+        categoryIds.add(setmeal.getCategoryId());
+        //获得修改后的套餐分类id
+        categoryIds.add(setmealWithSetmealDishDTO.getCategoryId());
+        clearSetmealListCache(categoryIds);
     }
 
     @Override
@@ -109,13 +151,20 @@ public class SetmealServiceImpl implements SetmealService {
         setmeal.setStatus(status);
         setmealMapper.updateSetmealById(setmeal);
         log.info("套餐状态修改成功，当前状态：{}", status);
+        //删除套餐分类缓存：
+        setmeal = setmealMapper.selectSetmealById(id);
+        Set<Long> categoryIds = new HashSet<>();
+        categoryIds.add(setmeal.getCategoryId());
+        clearSetmealListCache(categoryIds);
     }
 
+    @Cacheable(cacheNames = "UserSetmeal" , key = "'list:'+#categoryId")
     @Override
     public List<Setmeal> getSetmealsBycategoryId(Long categoryId) {
         return setmealMapper.getSetmealsBycategoryId(categoryId);
     }
 
+//    @Cacheable(cacheNames = "UserSetmeal" , key = "'detail:'+#id")
     @Override
     public List<DishItemVO> selectDishesById(Long id) {
         return setmealMapper.selectDishesById(id);

@@ -126,7 +126,7 @@
                  LEFT JOIN sky_take_out.dish_flavor df on d.id = df.dish_id
         <where>
             <if test="categoryId != null">d.category_id = #{categoryId}</if>
-            <if test="status != null">AND d.status = 1</if>
+            AND d.status = 1
         </where>
     </select>
 
