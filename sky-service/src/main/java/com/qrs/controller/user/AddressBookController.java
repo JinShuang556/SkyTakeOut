@@ -40,4 +40,32 @@ public class AddressBookController {
         addressBookService.insert(addressBookDTO);
         return Result.success();
     }
+
+    /**
+     * 根据id查询地址信息
+     * @param id 地址id
+     * @return 地址信息
+     */
+    @GetMapping("/{id}")
+    public Result<AddressBook> selectById(@PathVariable Long id){
+        log.info("根据Id查询地址信息:{}", id);
+        AddressBook addressBook = addressBookService.getAddressBookById(id);
+        return Result.success(addressBook);
+    }
+
+    /**
+     * 删除地址信息
+     * @param id 地址id
+     * @return 删除结果
+     */
+    @DeleteMapping
+    public Result delete(Long id){
+        log.info("删除地址信息:{}", id);
+        addressBookService.delete(id);
+        return Result.success();
+    }
+
+
+
+
 }

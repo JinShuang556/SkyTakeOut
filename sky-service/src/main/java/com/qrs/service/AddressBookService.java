@@ -17,4 +17,18 @@ public interface AddressBookService {
      * @param addressBookDTO 地址信息
      */
     void insert(AddressBookDTO addressBookDTO);
+
+    /**
+     * 根据id查询地址信息
+     * @param id 地址id
+     * @return 地址信息
+     */
+    AddressBook getAddressBookById(Long id);
+
+    /**
+     * 删除地址信息
+     * @param id 地址id
+     */
+    void delete(Long id);
+
 }
