@@ -1,10 +1,7 @@
 package com.qrs.mapper;
 
 import com.qrs.entity.AddressBook;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -39,5 +36,26 @@ public interface AddressBookMapper {
      */
     @Delete("delete from address_book where id = #{id}")
     void deleteById(Long id);
+
+    /**
+     * 修改地址信息
+     * @param addressBook 地址信息
+     */
+    void updateById(AddressBook addressBook);
+
+    /**
+     * 查询当前用户的默认地址
+     * @param userId 当前用户id
+     * @return 默认地址
+     */
+    @Select("select * from address_book where is_default = 1 and user_id = #{userId}")
+    AddressBook getDefault(Long userId);
+
+    /**
+     * 把所有地址设置为非默认
+     * @param userId 当前用户id
+     */
+    @Update("update address_book set is_default = 0 where user_id = #{userId}")
+    void updateDefaultByUserId(Long userId);
 
 }

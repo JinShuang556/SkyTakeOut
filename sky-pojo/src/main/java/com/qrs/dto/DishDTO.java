@@ -7,10 +7,6 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * 菜品类(Dish)
- * 用于存储菜品相关的信息，包括菜品的基本信息、价格、状态等
- */
 @Data  // 使用Lombok的@Data注解，自动生成getter、setter、equals、hashCode和toString方法
 public class DishDTO {
     private Long id; // 菜品ID，唯一标识一道菜品

@@ -31,4 +31,21 @@ public interface AddressBookService {
      */
     void delete(Long id);
 
+    /**
+     * 修改地址信息
+     * @param addressBookDTO 地址信息
+     */
+    void update(AddressBookDTO addressBookDTO);
+
+    /**
+     * 获取默认地址
+     * @return 默认地址
+     */
+    AddressBook getDefault();
+
+    /**
+     * 设置默认地址
+     * @param addressBook 地址
+     */
+    void setDefault(AddressBook addressBook);
 }
