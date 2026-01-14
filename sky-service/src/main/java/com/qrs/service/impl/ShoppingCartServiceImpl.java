@@ -2,7 +2,7 @@ package com.qrs.service.impl;
 
 import com.qrs.constant.ShoppingCartConstant;
 import com.qrs.context.BaseContext;
-import com.qrs.dto.ShoppingCartAddDTO;
+import com.qrs.dto.ShoppingCartDTO;
 import com.qrs.entity.Dish;
 import com.qrs.entity.Setmeal;
 import com.qrs.entity.ShoppingCart;
@@ -30,62 +30,69 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public List<ShoppingCart> getList() {
-        return shoppingCartMapper.selectList();
+        return shoppingCartMapper.showShoppingCart();
     }
 
     @Transactional
     @Override
-    public void addShoppingCart(ShoppingCartAddDTO shoppingCartAddDTO) {
+    public void addShoppingCart(ShoppingCartDTO shoppingCartDTO) {
         ShoppingCart shoppingCart = new ShoppingCart();
         //将shoppingCartAddDTO中的属性复制到shoppingCart中
-        BeanUtils.copyProperties(shoppingCartAddDTO, shoppingCart);
+        BeanUtils.copyProperties(shoppingCartDTO, shoppingCart);
         //设置shoppingCart的userId
         Long userId = BaseContext.getCurrentId();
         shoppingCart.setUserId(userId);
-        //判断这次操作是菜品还是套餐
-        if (shoppingCartAddDTO.getDishId() != null) {
-            //如果是菜品
-            //判断购物车中是否已经存在该菜品
-            log.info("购物车add菜品：{}", shoppingCartAddDTO.getDishId());
-            Dish dish = dishMapper.getDishById(shoppingCartAddDTO.getDishId());
-            Integer count = shoppingCartMapper.getCountByDishId(userId, dish.getId());
-            if(count > 0){
-                //存在,让该菜品的number++
-                //两个都要同时满足，才能定位
-                shoppingCartMapper.addNumberByDishId(userId, dish.getId());
-            }else{
-                //不存在,将shoppingCart插入数据库
+        //判断当前商品是否在购物车中
+        List<ShoppingCart> shoppingCartList = shoppingCartMapper.getList(shoppingCart);
+        if (shoppingCartList != null && shoppingCartList.size() == 1) {
+            //如果已经存在，就更新数量，数量加1
+            shoppingCart = shoppingCartList.getFirst();//获取第一个元素
+            shoppingCart.setNumber(shoppingCart.getNumber() + 1);
+            shoppingCartMapper.updateNumberById(shoppingCart);
+        } else {
+            //如果不存在，插入数据，数量就是1
+            Long dishId = shoppingCartDTO.getDishId();
+            if (dishId != null) {
+                //添加到购物车的是菜品
+                Dish dish = dishMapper.getDishById(dishId);
                 shoppingCart.setName(dish.getName());
                 shoppingCart.setImage(dish.getImage());
-                //插入默认数量：1
-                shoppingCart.setNumber(ShoppingCartConstant.SHOPPING_CART_DEFAULT_NUMBER);
                 shoppingCart.setAmount(dish.getPrice());
-                shoppingCart.setCreateTime(LocalDateTime.now());
-                shoppingCartMapper.insert(shoppingCart);
-            }
-            log.info("购物车add菜品成功");
-            return;
-        }
-        if (shoppingCartAddDTO.getSetmealId() != null) {
-            //如果是套餐
-            //判断购物车中是否已经存在该套餐
-            log.info("购物车add套餐：{}", shoppingCartAddDTO.getSetmealId());
-            Setmeal setmeal = setmealMapper.getSetmealById(shoppingCartAddDTO.getSetmealId());
-            Integer count = shoppingCartMapper.getCountBySetmealId(userId, setmeal.getId());
-            if(count > 0){
-                //存在,让该套餐的number++
-                //两个都要同时满足，才能定位
-                shoppingCartMapper.addNumberBySetmealId(userId, setmeal.getId());
-            }else{
-                //不存在,将shoppingCart插入数据库
+            } else {
+                //添加到购物车的是套餐
+                Setmeal setmeal = setmealMapper.getSetmealById(shoppingCartDTO.getSetmealId());
                 shoppingCart.setName(setmeal.getName());
                 shoppingCart.setImage(setmeal.getImage());
-                shoppingCart.setNumber(ShoppingCartConstant.SHOPPING_CART_DEFAULT_NUMBER);
                 shoppingCart.setAmount(setmeal.getPrice());
-                shoppingCart.setCreateTime(LocalDateTime.now());
-                shoppingCartMapper.insert(shoppingCart);
             }
-            log.info("购物车add套餐成功");
+            shoppingCart.setNumber(ShoppingCartConstant.SHOPPING_CART_DEFAULT_NUMBER);
+            shoppingCart.setCreateTime(LocalDateTime.now());
+            shoppingCartMapper.insert(shoppingCart);
         }
+    }
+
+    @Transactional
+    @Override
+    public void subShoppingCart(ShoppingCartDTO shoppingCartDTO) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        BeanUtils.copyProperties(shoppingCartDTO, shoppingCart);
+        //获得购物车的信息：
+        List<ShoppingCart> shoppingCarts = shoppingCartMapper.getList(shoppingCart);
+        ShoppingCart shoppingCart1 = shoppingCarts.getFirst();
+        int number = shoppingCart1.getNumber() - 1;
+        shoppingCart1.setNumber(number);
+        shoppingCartMapper.updateNumberById(shoppingCart1);
+        //如果数量为0则删除该购物车
+        if (number == 0) {
+            shoppingCartMapper.deleteById(shoppingCart1.getId());
+        }
+    }
+
+    @Override
+    public void cleanShoppingCart() {
+        //获得当前用户的id
+        Long UserId = BaseContext.getCurrentId();
+        //根据用户id清空购物车
+        shoppingCartMapper.cleanShoppingCart(UserId);
     }
 }

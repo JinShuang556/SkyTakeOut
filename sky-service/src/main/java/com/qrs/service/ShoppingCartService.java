@@ -1,8 +1,7 @@
 package com.qrs.service;
 
-import com.qrs.dto.ShoppingCartAddDTO;
+import com.qrs.dto.ShoppingCartDTO;
 import com.qrs.entity.ShoppingCart;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -15,8 +14,19 @@ public interface ShoppingCartService {
     List<ShoppingCart> getList();
 
     /**
-     * 添加商品到购物车
-     * @param shoppingCartAddDTO 商品信息
+     * 添加菜品或套餐到购物车
+     * @param shoppingCartDTO 菜品或套餐信息
      */
-    void addShoppingCart(ShoppingCartAddDTO shoppingCartAddDTO);
+    void addShoppingCart(ShoppingCartDTO shoppingCartDTO);
+
+    /**
+     * 从购物车中减少菜品或套餐
+     * @param shoppingCartDTO 菜品或套餐信息
+     */
+    void subShoppingCart(ShoppingCartDTO shoppingCartDTO);
+
+    /**
+     * 清空购物车
+     */
+    void cleanShoppingCart();
 }
